@@ -1,0 +1,23 @@
+this.activated[data-type="widget"] .big-icon, this.activated[data-type="widget"] .icon-image {
+	display: none;
+}
+
+this.activated[data-type="widget"] .title {
+	display: none;
+}
+
+this.activated[data-type="widget"] {
+	-webkit-transition: background-color 0.2s linear;
+}
+
+.editor {
+	display:none;
+	height: 80%;
+	background-image: url(widgets/colour_picker.png);
+	background-size: 100% 100%;
+	margin: 10%;
+}
+
+this.activated[data-type="widget"] .editor {
+	display:block;
+}

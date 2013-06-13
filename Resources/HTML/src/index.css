@@ -1,0 +1,600 @@
+
+/* typicons */
+.icon {
+  font-family: 'Typicons', sans-serif;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+/* make this more app-like, less web-like */
+* { /* ES: Are these wildcard selectors a performance hit? */
+  -webkit-touch-callout: none;
+  user-select: none;
+  tap-highlight-color: transparent;
+}
+
+.remote, header {
+	-webkit-user-select: none;
+}
+
+/* make this more app-like, less web-like */
+input { /* ES: Are these wildcard selectors a performance hit? */
+  -webkit-touch-callout: auto;
+  user-select: auto;
+  tap-highlight-color: rgb(90,186,232);
+}
+
+
+/* for once IE has it right */
+* {
+  box-sizing: border-box;
+}
+
+ body {
+    font-family: "Helvetica";
+ }
+
+/* mixins */
+
+/*.noise:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url(../images/noise.png) repeat center center;
+    background-size: 50px 50px;
+    opacity: 1;
+    pointer-events: none;
+}*/
+
+body .main-pane {
+}
+
+header {
+    padding-top:0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+header .title {
+    font-size: 20px;
+    padding-top: 7px;
+    color: #E9E9EA;
+    position:absolute;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    pointer-events: none;
+    text-decoration: none;
+    font-weight:bold; text-shadow: 0px 1px 1px #000000;
+    filter: dropshadow(color=#000000, offx=0, offy=1);
+}
+
+header .title .edit {
+    color:white;
+}
+
+header .button {
+    cursor: pointer;
+
+    /*background-color: red;*/
+    background-size: 100% 100%;
+}
+
+header .edit{
+    float: right;
+    padding-left: 0;
+    padding-right: 0;
+    width: 39px!important;
+    height: 29px!important;
+    background-image: url(../images/header-edit.png);
+}
+
+.edit header .edit{
+    float: right;
+    width: 56px!important;
+    height: 29px!important;
+	background-image: url(../images/header-edit-down.png);
+}
+
+header .settings {
+    float: left;
+    padding-left: 0;
+    padding-right: 0;
+    width: 39px!important;
+    height: 29px!important;
+    background-image: url(../images/header-settings.png);
+}
+
+#remotes {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    padding-top: 35px;
+}
+
+.remote {
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    /*transition: background-color 0.2s linear;*/
+}
+
+.remote.parent {
+    display: none;
+}
+
+.remote.hidden {
+    z-index: 1;
+    display:none;
+}
+
+.remote-inner {
+    display: table;
+    width: 100%;
+    height: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+.remote-row {
+    display: table-row;
+}
+
+.remote-row > td {
+    border: 1px solid rgba(41, 42, 51, 1); /* stroke */
+    /*-webkit-box-shadow: inset 0 1px 0 0px rgba(62,63,79,.97);  inner shadow
+    background-image: -webkit-linear-gradient(bottom, rgba(53,53,66,.13) 0%, rgba(46,47,57,.13) 100%); /* gradient overlay
+    background-image: linear-gradient(bottom, rgba(53,53,66,.13) 0%, rgba(46,47,57,.13) 100%);  gradient overlay */
+
+    /*border: 1px solid #191a20;
+    box-shadow: inset 0 1px 1px rgba(106, 108, 134, 0.1), 0 1px 0 rgba(0, 0, 0, .1);*/
+}
+
+.remote-row > td:first-child {
+	border-left: 0px !important;
+}
+.remote-row > td:last-child {
+	border-right: 0px !important;
+}
+
+.remote-button {
+
+    vertical-align:middle;
+    text-align:center;
+    color: #E9E9EA;
+    width: 100%;
+    height: 100%;
+    /*border: 1px solid rgba(0,0,0,0);*/
+
+}
+
+.remote-button .icon-image img {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+}
+
+
+.remote-button .icon-shadow img {
+	box-shadow:  0px 1px 3px rgba(50, 50, 50, 0.5);
+}
+
+
+.remote-button .title {
+	display: table;
+	width: 100%;
+}
+
+.remote-button .title-inner {
+
+    text-shadow: 0px 1px 1px #000000;
+    filter: dropshadow(color=#000000, offx=0, offy=1);
+
+	display: table-cell;
+    vertical-align:middle;
+    text-align: center;
+    padding-top: 3px;
+	overflow:hidden;
+	height: 29px;
+	width: 100%;
+	font-size: 14px;
+}
+
+.remote-button.missing-device {
+    border-color: #C22A00;
+}
+
+.remote-button-empty {
+}
+
+.remote-button .big-icon {
+    font-size: 60px;
+    line-height: 60px;
+}
+
+.remote-button .edit-button, .remote-button .delete-button {
+   display: none;
+}
+
+.remote-button > div {
+    display:table;
+    width: 100%;
+    height: 100%;
+}
+
+.remote-button > div > div {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.remote-button.hover {
+    background: url(../images/purple_grape_s.png) repeat center center;
+    background-size: 100% 100%;
+    border: 0;
+    padding: 1;
+}
+
+.remote-button.activated {
+    background-color: #878787;
+    /*transform:scale(0.9,0.9);
+    -ms-transform:scale(0.9,0.9);
+    -moz-transform:scale(0.9,0.9);
+    -webkit-transform:scale(0.9,0.9);
+    -o-transform:scale(0.9,0.9);
+    transition-property: background-color;
+    transition-duration: 0.2s; */
+}
+
+.edit #settingsButton {display: none;}
+
+
+.remote-button.active.hover{
+    background: url(../images/gray_s.png) repeat center center;
+    background-size: 100% 100%;
+}
+
+.edit .remote-button.active.hover{
+    background: 0;
+}
+
+/* touching mode */
+
+body.touching .main-pane, body.second-level .main-pane {
+    background: rgb(40, 40, 49);
+    background: linear-gradient(rgb(40, 40, 49),rgb(63, 63, 77));
+}
+
+
+body.touching .remote-row > td, body.touching .remote-row > td {
+    border: 1px solid rgb(33,32,33);
+    -webkit-box-shadow: inset 0px 1px 0px 0px rgba(62,63,79,.97);
+    box-shadow: inset 0px 1px 0px 0px rgba(62,63,79,.97);
+    background-image: -webkit-linear-gradient(bottom, rgba(53,53,66,.13) 0%, rgba(46,47,57,.13) 100%); /* gradient overlay */
+}
+
+.touching #settingsButton {display:none;}
+.touching #editButton {display: none;}
+
+/* edit mode */
+
+body.edit {
+    /*background: rgb(6, 46, 137);*/
+    background: url(../images/grid.png) 0 0 no-repeat, -webkit-linear-gradient(rgb(77, 152, 248),rgb(30, 75, 175));
+
+
+}
+
+/*body.edit .main-pane:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url(../images/bs-docs-masthead-pattern.png) repeat center center;
+    opacity: 1;
+    pointer-events: none;
+}*/
+
+.remote-button {
+    position:relative;
+    /*-webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    -o-transition: all 0.1s linear;
+    -ms-transition: all 0.1s linear;
+    transition: all 0.1s linear;*/
+}
+
+body.edit .remote-button.moved {
+    position: absolute;
+}
+
+
+body.edit .drag-source {
+    border: 1px solid #b4cff6;
+    position: absolute;
+}
+
+.edit .remote-row > td {
+    border-color: rgba(0,0,0,0);
+    box-shadow: none;
+}
+
+
+body.edit .remote-button {
+    border-radius: 10px;
+    border: 1px solid #b4cff6;
+}
+
+body.edit .remote-button.hover {
+    background-color: rgb(19,128,193);
+}
+
+/* The outer div is used as a click target, 5px larger on each side than the button
+   (which is a little too small for most mobile devices... and fat fingers) */
+body.edit .edit-button, body.edit .delete-button {
+    display: inline;
+    position: absolute;
+    /*background-color: rbga(255,0,0,0.2);*/
+    padding:5px;
+    top: -15px;
+    left: -15px;
+}
+
+body.edit .remote-row > td:first-child .edit-button, body.edit .remote-row > td:first-child .delete-button {
+    left: -7px;
+}
+
+
+body.edit .edit-button .inner, body.edit .delete-button .inner {
+    background-size: 26px 26px;
+    width: 26px;
+    height: 26px;
+}
+
+body.edit .delete-button .inner {
+    background-image: url(../images/close@2x.png);
+}
+
+body.edit .edit-button .inner {
+    background-image: url(../images/edit@2x.png);
+}
+
+
+
+
+body.edit .empty .edit-remote {
+    display: none;
+}
+
+.remote-button.empty .icon {
+    display: none;
+}
+
+body.edit .remote-button.empty .icon {
+	width: 100%;
+	height: 100%;
+    display: block;
+    background: url(../images/plus.png) no-repeat center center;
+    background-size: 64px 64px;
+}
+
+body.edit .remote-button.empty {
+    background-color: rgba(28, 61, 136,0.5);
+    border-color: #b4cff6;
+}
+
+
+/* Blur and scale effect on drag
+
+body {
+   -webkit-transform: translateZ(0px);
+}
+
+.dragged {
+    -webkit-filter: blur(2px);
+}
+@keyframes jiggle {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+}
+
+.dragged {
+    transform:scale(1.02);
+}
+.dragged .remote-button {
+    animation-delay:2s;
+    animation: jiggle 0.18s infinite;
+}*/
+
+.main-pane {
+
+     min-height: 100%;
+}
+
+.ze-big-black-hider {
+    position: absolute;
+    background-color: black;
+    display: none;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transition: opacity 0.5s ease-out;
+}
+
+.ze-big-black-hider.visible {
+    display: block;
+    opacity: 0.9;
+    z-index: 9;
+}
+
+.edit-pane {
+    display:none;
+    top: 0px;
+    position:absolute;
+    height: 100%;
+    width: 100%;
+    background: white;
+
+    z-index: 10;
+
+    transition: top 0.3s ease-out;
+    overflow-y: scroll;
+}
+
+.add-pane {
+    display:none;
+    bottom: 0;
+    overflow-y: scroll;
+    position:absolute;
+
+    height: 150px;
+    width: 100%;
+    background: white;
+
+    padding: 20px;
+
+    z-index: 10;
+
+    transition: top 0.3s ease-out;
+}
+
+.edit-pane header .cancel {
+    float: right;
+}
+
+.edit-pane .page {
+    margin-top: 12%;
+    margin-top: -webkit-calc(80px);
+    margin-top: calc(80px);
+}
+
+.edit-pane .relayDevices li.active a, .edit-pane .lightDevices li.active a {
+    background-color: #eee;
+}
+
+.zone-page {
+    display: block;
+}
+
+.edit-pane .currentIcon .icon {
+    font-size: 60px;
+    padding-top: 12px;
+    float: left;
+}
+
+.icon-page {
+    display: none;
+}
+
+.icon-page .icon-holder {
+    width: 25%;
+    padding: 10px;
+    float:left;
+    box-sizing: border-box;
+}
+
+.edit-pane .colour-holder {
+    width: 12.5%;
+    padding: 10px;
+    float:left;
+    box-sizing: border-box;
+}
+
+.edit-pane .colour-holder .thumbnail {
+    height: 80px;
+}
+
+
+
+.icon-page .thumbnail {
+    text-align: center;
+}
+
+.icon-page .active {
+    background: #444;
+    color: whitesmoke;
+}
+
+.icon-page .icon {
+    font-size: 30px;
+}
+
+.icon-holder .thumbnail {
+    line-height: 60px;
+}
+
+
+/* Phone layout */
+
+@media (max-width: 700px), (max-height: 300px) {
+
+    .remote-button .big-icon {
+        font-size: 25px;
+        line-height: 25px;
+    }
+
+    /* Remove the larger click target
+    body.edit .edit-button, body.edit .delete-button {
+	top: -26px;
+	left: -26px;
+	padding:5;
+    }*/
+
+    /* Smaller header */
+
+    header .button {
+        /* height: 29px !important;
+        width: 29px !important;*/
+    }
+
+    header .title {
+        font-size: 16px;
+		padding-top: 5px;
+    }
+
+    #remotes {
+        padding-top: 29px;
+    }
+
+    .remote-button .icon-image img {
+        width: 48px;
+        height: 48px;
+        border-radius: 6px;
+    }
+
+    .remote-button .icon-shadow img {
+        box-shadow:  0px 1px 3px rgba(50, 50, 50, 0.3);
+	}
+
+}
+
+
+
+/* This should be moved into the switch widget once I fix the bug that causes it to fail in there */
+@media (max-width: 700px), (max-height: 300px) {
+  .widget-switch .has-switch label.switch-large, .widget-switch .has-switch span.switch-large {
+        padding-bottom: 4px !important;
+        padding-top: 4px !important;
+        font-size: 14px !important;
+  }
+}

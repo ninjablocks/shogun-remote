@@ -1,0 +1,30 @@
+<h1>statusbaroverlay Module</h1>
+<h2>Description</h2>
+<p>An overlay to the status bar for ios to display messages much like the one on twitter</p>
+<h2>Accessing the statusbaroverlay Module</h2>
+<p>To access this module from JavaScript, you would do the following:</p>
+<pre><code>var statusbaroverlay = require("mattapp.statusbar");
+</code></pre>
+<p>The statusbaroverlay variable is a reference to the Module object.</p>
+<h2>Usage</h2>
+<p>var statusbaroverlay = require('mattapp.statusbar');</p>
+<p>//displays a message in the status bar, that is dismissed when tapped
+statusbaroverlay.postMessage("Posting to Twitter");
+//you can also set a timeout to auto hide the message
+//statusbaroverlay.postMessage("Posting to Twitter", 3.0);</p>
+<p>//displays a message in the status bar with an activity indicator on the left side, that is dismissed when tapped
+statusbaroverlay.postMessageInProgress("Posting to Twitter");
+//you can also set a timeout to auto hide the message
+//statusbaroverlay.postMessageInProgress("Posting to Twitter", 3.0);</p>
+<p>//displays a message in the status bar with a check on the left side, that is dismissed after a timeout
+statusbaroverlay.postFinishMessage("Message was posted to Twitter", 2.0);</p>
+<p>//displays a message in the status bar with an X the left side, that is dismissed after a timeout
+statusbaroverlay.postErrorMessage("Error posting to Twitter", 2.0);</p>
+<p>//hide the statusbaroverlay but keep its current message displayed
+statusbaroverlay.hide();</p>
+<p>//show the statusbaroverlay if any messages were hidden
+statusbaroverlay.show();</p>
+<p>//hide and clear the statusbar
+statusbaroverlay.stop();</p>
+<h2>Author</h2>
+<p>Module created by Matt Apperson, based on the open source work of Matthias Tretter</p>

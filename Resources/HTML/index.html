@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <title>Ninja Lights</title>
+        <meta name="description" content="">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="apple-touch-fullscreen" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta http-equiv="cleartype" content="on">
+
+        <script>
+        	if (typeof Ti == 'undefined') window.Ti = false;
+
+        	document.addEventListener("touchmove", function(e){
+                e.preventDefault();
+                return false;
+           }, false);
+
+        </script>
+
+        <!-- This script prevents links from opening in Mobile Safari. https://gist.github.com/1042026 -->
+        <!--
+        <script>(function(a,b,c){if(c in b&&b[c]){var d,e=a.location,f=/^(a|html)$/i;a.addEventListener("click",function(a){d=a.target;while(!f.test(d.nodeName))d=d.parentNode;"href"in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")</script>
+        -->
+
+        <link rel="stylesheet" href="src/index.css"/>
+
+        <!--<script src="lib/modernizr-2.6.1.min.js"></script>-->
+        <!--<script src="lib/prefixfree.min.js"></script>-->
+
+        <!-- build:js index.lib.js -->
+            <script src="lib/one-color.js"></script>
+
+            <script src="lib/zepto-1.0.1.min.js"></script>
+            <script src="lib/zepto.touch.js"></script>
+            <script src="lib/underscore.js-1.4.4.js"></script>
+            <script src="lib/trimpath.template-1.1.2.js"></script>
+        <!-- endbuild -->
+
+        <!-- build:js index.src.js -->
+
+            <script src="src/util.js"></script>
+
+            <script src="src/node-ninja-blocks.js"></script>
+
+            <script src="src/ninja.control.services.js"></script>
+            <script src="src/ninja.control.store.js"></script>
+            <script src="src/ninja.control.widget.js"></script>
+            <script src="src/ninja.control.remote.js"></script>
+            <script src="src/ninja.control.remote.edit.js"></script>
+            <script src="src/ninja.control.edit.js"></script>
+            <script src="src/ninja.control.header.js"></script>
+            <script src="src/index.js"></script>
+        <!-- endbuild -->
+
+    </head>
+    <body class="noise">
+
+        <div class="main-pane">
+
+            <section id="remotes">
+
+            </section>
+
+            <script id="remoteTmpl" type="text/html">
+                <div class="remote {if id} hidden" data-remote-id="${id}{else} main{/if}">
+                    <table class="remote-inner">
+
+                        {for row in buttons}
+                            <tr class="remote-row" style="height:${100/rows}%">
+
+                                {for button in row}
+                                    {if button}
+                                           <td style="width:${(100/cols) * (button.width||1)}%"
+                                                colspan="${button.width||1}"
+                                                rowspan="${button.height||1}"
+                                                id="wrap-${(id||'main')+row_index+''+button_index}">
+                                                {eval}
+                                                    //ES:FIXME!
+                                                   _OUT.write($T('buttonTmpl', {button:button}));
+                                                {/eval}
+                                            </td>
+                                    {/if}
+                                {/for}
+
+                            </tr>
+                        {/for}
+
+                    </table>
+                </div>
+            </script>
+
+            <script id="buttonTmpl" type="text/html">
+
+                    <div class="remote-button {if button.active} active{/if} {if button.empty} empty{/if} {if button.widget} widget-${button.widget}{/if}"
+
+                        {if !button.empty} data-button-id="${button.id}"
+                            data-type="${button.type}"
+                            {if button.type == 'menu'} data-remote="${button.id}"{/if}
+                            {if button.type != 'menu' && button.type != 'menu-active' && button.widget} data-widget="${button.widget}"{/if}
+                            data-x="${button.x}"
+                            data-y="${button.y}"
+                            data-xy="${button.x}-${button.y}"
+                        {/if}
+
+                        {if button.devices && button.devices.length == 1}
+                            data-device="${button.devices[0]}"
+                        {/if}
+                        >
+                        <div> <!-- for vertical centering -->
+                            <div>
+
+                                {if button.empty}
+                                    <div class="icon"></div>
+                                {else}
+                                    {if button.active}
+                                        <div class="edit-button"><div class="inner"></div></div>
+                                    {else}
+                                        <div class="delete-button"><div class="inner"></div></div>
+                                    {/if}
+
+                                    {if button.image}
+                                        <div class="icon-image {if button.image.indexOf('ns') != 0} icon-shadow{/if}"><img width="64" src="icons/${button.image}.png"></div>
+
+                                    {else}
+                                        <div class="icon big-icon icon-${button.icon}"></div>
+                                    {/if}
+                                    {if button.title}
+                                        <div class="title"><div class="title-inner">${button.title}</div></div>
+                                    {/if}
+                                    {if button.type == 'widget'}
+                                        ${ninja.control.widget.getHtml(button.widget)}
+                                    {/if}
+                                {/if}
+                            </div>
+                        </div>
+                    </div>
+
+            </script>
+        </div>
+
+         <header>
+            <a class="title" href="#">Ninja Remote</a>
+
+            <span id="settingsButton" class="settings button"> </span>
+            <span id="editButton" class="edit button"> </span>
+        </header>
+    </body>
+</html>

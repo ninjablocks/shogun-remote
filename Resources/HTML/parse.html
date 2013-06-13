@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <title>Language Parsing Demo</title>
+
+        <script src="lib/jquery-1.9.1.min.js"></script>
+        <script src="lib/underscore.js-1.4.4.js"></script>
+        <script src="lib/xregexp-3.0.0-pre.js"></script>
+        <script src="lib/sugar.js"></script>
+
+        <script>
+
+            var commandExamples = [
+                'Turn on the lights in the hallway',
+                'Turn on the kitchen light',
+                'Turn off the hallway light',
+                'Turn off all my lights',
+                'Turn off all the lights at home',
+                'Turn off hallway light',
+                'Close the kitchen blinds',
+                'Open the blinds in the lounge room',
+                'Dim the lounge room lights',
+                'Set the aircon to 22 degrees',
+                'Set the kitchen light to red',
+                'Party mode',
+                'Is the hallway light on?',
+                'Are there any lights on in the house?',
+                'Are there any lights on in the hallway?',
+                'What is the temperature at home?',
+                'What colour is the kitchen light?',
+                'open the kitchen blinds'
+            ];
+
+            var preconditionExamples = [
+                'When I get home',
+                'When I arrive at work',
+                'at 2:00 am',
+                'At 9am next Wednesday',
+                'At the end of Next month',
+                'on two days from Friday',
+                'On thursday',
+                'If it\'s raining',
+                'When my wife is home',
+                'When my children arrive home from school',
+                'if motion is detected',
+                'If the door is opened',
+                'Between 9-5pm'
+            ]
+
+            var wordClasses = {
+                interrogative: ['what','what is','what are','which','is','has','are'],
+                verb: ['set','turn on','turn off','dim','close','open','shut'],
+                adjective: ['all'],
+                determiner: ['a','an','the','my','our'],
+                preposition: ['in', 'at', 'before', 'between', 'on'],
+                noun: ['lights', 'light', 'blinds', 'blind', 'air conditioner', 'air con', 'aircon',  'heater', 'fan'],
+                conjunction: ['if', 'when'],
+                repeating: ['week day', 'weekday', 'week', 'month', 'day', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+
+            };
+
+            _.each(wordClasses, function(vals, key) {
+                //console.log(wordClasses);
+                wordClasses[key] = vals.join('|');
+            });
+
+            console.log(wordClasses);
+
+            var command = XRegExp.build('(?i)({{verb}}) (({{adjective}}) )?({{determiner}} )?({{determiner}}|(?<location>[a-z ]+)) ({{noun}})( {{preposition}} ({{determiner}} )?(?<location2>[a-z ]+))?( to (?<value>.*))?', wordClasses);
+
+            var precondition = XRegExp.build('(?i)((({{conjunction}})|({{preposition}})) (?<condition>.*))?', wordClasses);
+
+          /*  var parser = XRegExp.build('({{precondition}} ({{command}})', {
+                command: command
+            });*/
+
+            _.each(preconditionExamples, function(x) {
+                var result = XRegExp.exec(x, precondition);
+                if (result) {
+                    var p = {
+                        preposition: result.preposition,
+                        condition: result.condition,
+                        conjuction: result.conjunction,
+                        repeating: result.repeating || result.repeating2
+                    };
+
+                    if (p.preposition) {
+                        p.date = Date.future(p.condition);
+                    }
+
+                    //console.log(p);
+                    console.log(x, ' - ', JSON.stringify(p));
+                }
+                //console.log(result);
+            });
+
+            $(function() {
+                $('#query').change(function() {
+                    $('#output').text(JSON.stringify(parseCommand($(this).val())));
+                });
+            });
+
+
+              var recognition = new webkitSpeechRecognition();
+              recognition.continuous = true;
+              
+
+              recognition.onstart = function() {console.log('Starting');}
+              //recognition.onresult = function(event) {console.log('onresult', event);}
+              recognition.onerror = function(event) {console.log('onerror', event);}
+              recognition.onend = function() {console.log('End');/*recognition.start();*/}
+              var final_transcript = '';
+
+              recognition.onresult = function(event) {
+                
+                console.log('onresult', event);
+
+                var interim_transcript = '';
+
+                for (var i = event.resultIndex; i < event.results.length; ++i) {
+                    interim_transcript += event.results[i][0].transcript;
+                }
+
+                interim_transcript = interim_transcript.trim();
+                
+                console.log('Got ', JSON.stringify({a:interim_transcript}));
+                parseCommand(interim_transcript);
+
+              };
+            
+              //recognition.start();
+
+            $(function() {
+              $('#go').click(function() {
+                recognition.start();    
+              })
+              $('#stop').click(function() {
+                recognition.stop();    
+              })
+            });
+
+            recognition.lang = "en-GB";
+            
+            function parseCommand(x) {
+
+                console.log('parsing', x);
+
+                var result = XRegExp.exec((x+'').trim(), command);
+                //console.log(result);
+                
+                if (result) {
+                    var c = {
+                        verb: result.verb,
+                        adjective: result.adjective,
+                        noun: result.noun,
+                        location: result.location || result.location2,
+                        value: result.value
+                    };
+                    return c;
+                }
+            }
+
+            _.each(commandExamples, function(x) {
+                //x = x.toLowerCase();
+                
+                //console.group(x);
+
+                var result = parseCommand(x);
+                if (result) {
+
+                    console.log(x, ' - ', JSON.stringify(result));
+                }
+
+                //console.groupEnd(x);
+            });
+
+        </script>
+
+
+    </head>
+    <body>
+        <button id="go">Go</button><button id="stop">Stop</button>
+        <pre id="output"></pre>
+    </body>
+</html>

@@ -1,0 +1,5 @@
+{
+	"name" : "Switch",
+	"controls" : "Switches",
+	"device_types" : ["relay", "light_onoff", "light_switch"]
+}
