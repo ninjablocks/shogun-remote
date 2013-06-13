@@ -50,7 +50,7 @@ module.exports.createWindow = function(config) {
 				var menu = e.menu;
 				var menuItem = menu.add({
 					title : rightNavButton.title,
-					icon : "/images/action_save.png",
+					icon : "images/ic_action_save.png",
 					showAsAction : Ti.Android.SHOW_AS_ACTION_ALWAYS
 				}); 
 				menuItem.addEventListener("click", function(e) {
