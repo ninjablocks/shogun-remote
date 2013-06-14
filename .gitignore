@@ -18,3 +18,7 @@ Resources/HTML/index.min.html
 Resources/HTML/index.lib.js
 
 PlayStore/NB Android Keystore
+
+PlayStore/Remote-signed.apk
+
+PlayStore/Remote.apk
