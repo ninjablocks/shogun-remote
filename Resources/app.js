@@ -406,12 +406,13 @@ Ti.App.addEventListener('resume',function(e){
     backgrounded = false;
 });
 
+
 //* Fetch the users devices every 60 seconds, unless we're running in the background
 setInterval(function() {
 	if (!backgrounded && token) fetchDevices();
 }, 1000 * 60);
 //*/
-//Ti.App.addEventListener('fetchDevices', fetchDevices);
+Ti.App.addEventListener('fetchDevices', fetchDevices);
 
 Ti.App.addEventListener('restart', function() {
 	Ti.API.info("Restarting web view");
