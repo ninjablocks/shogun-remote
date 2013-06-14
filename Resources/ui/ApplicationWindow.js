@@ -14,6 +14,19 @@ function ApplicationWindow() {
         modal : true,
         exitOnClose : true  // Android only
     });
+    
+	if (!ios) {
+		Ti.Android.currentActivity.addEventListener('pause', function() {
+			self.close();
+			var activity = Titanium.Android.currentActivity;
+	     	activity.finish();
+		});
+		self.addEventListener('pause', function() {
+			self.close();
+			var activity = Titanium.Android.currentActivity;
+	     	activity.finish();
+		});
+	}
 
 	var webView;
 	function createWebView() {
