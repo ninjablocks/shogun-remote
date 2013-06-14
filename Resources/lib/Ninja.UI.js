@@ -123,6 +123,8 @@ module.exports.createListSection = function(config) {
 				item.properties = {};
 			}
 			item.properties.height = item.properties.height || 60;
+			item.properties.color = 'black';
+			item.properties.left = 20;
 		});
 	}
 	return Ti.UI.createListSection(config);
