@@ -7,7 +7,8 @@ window.id = Math.floor(Math.random() * 100);
 // Titanium's log only allows one argument :/
 function fire(level) {
 	return function() {
-		var strings = _.map(Array.prototype.slice.call(arguments), function(i) {
+		return;
+		/*var strings = _.map(Array.prototype.slice.call(arguments), function(i) {
 			try {
 				if (typeof i == 'string' || i === null || i === undefined || typeof i === 'number' || typeof i === 'boolean') {
 					return i;
@@ -21,18 +22,18 @@ function fire(level) {
 				return '[BAD CYCLICAL] ' + i;
 			}
 		});
-		Ti.App.fireEvent('webview.log', {data:window.id + ' - ' + strings.join(', '), level: level});
+		Ti.App.fireEvent('webview.log', {data:window.id + ' - ' + strings.join(', '), level: level});*/
 	};
 }
-/*if (Ti) {
+if (Ti) {
     console.log = fire('log');
     console.debug = fire('debug');
     console.warn = fire('warn');
     console.error = fire('error');
-}*/
+}
 
 window.onerror = function(a,b,c,d) {
-	//alert(a);
+	//alert(JSON.stringify(a) + JSON.stringify(b) + JSON.stringify(c));
 };
 
 //Small Jquery/ender<->JST plugin
@@ -120,10 +121,26 @@ var tiEventListeners = [];
 
     // the topic/subscription hash
     var cache = {};
+    
+    function titaniumCares(topic) {
+
+	return [
+		'widgets.ready',
+		'control.ready',
+		'control.load',
+		'control.states',
+		'control.button.confirmDelete',
+		'control.button.create',
+		'control.button.move',
+		'control.button.update',
+		'control.button.edit',
+		'control.settings.show'
+	].indexOf(topic) > -1;
+    }
 
 
     if (Ti) {
-         Ti.App.addEventListener('publish',  function(e) {
+        Ti.App.addEventListener('publish',  function(e) {
             d.publish.apply(d, [e.topic].concat(e.data));
         });
     }
@@ -131,15 +148,15 @@ var tiEventListeners = [];
 	function filterEl(args) {
 		return _.filter(args, function(a) {
 			return !a || (a && !a.ownerDocument);
-		})
+		});
 	}
 
     d.publish = function(topic){
-
+		
         var target = topic;
         var args = Array.prototype.slice.call(arguments, 1);
 
-       // console.info('>> Event [' +topic + ']', arguments);
+        console.info('>> Event [' +topic + ']');
 
         var keepGoing = true;
 
@@ -152,14 +169,17 @@ var tiEventListeners = [];
         };
 
         if (Ti) {
-            //Ti.App.fireEvent('*', {data:filterEl(args), topic: topic, windowId: window.id});
+            //Ti.App.fireEvent('*', {data:[], topic: topic, windowId: window.id});
         }
         _.each(cache['*']||[], go);
 
         while (target) {
             _.each(cache[target]||[], go);
-            if (Ti) {
-                Ti.App.fireEvent(target, {data:filterEl(args), topic: topic});
+            if (Ti && titaniumCares(target)) {
+				console.log('Firing', target, ' to titanium');
+                Ti.App.fireEvent(target, {data:filterEl(args), topic: target});
+            } else {
+				console.log('Not firing', target, 'to titanium');
             }
             target = target.substring(0, target.lastIndexOf('.'));
         }
