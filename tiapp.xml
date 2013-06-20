@@ -1,37 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
-	<deployment-targets>
-		<target device="tizen">false</target>
-		<target device="mobileweb">false</target>
-		<target device="iphone">true</target>
-		<target device="ipad">false</target>
-		<target device="android">true</target>
-		<target device="blackberry">false</target>
-	</deployment-targets>
-	<sdk-version>3.1.0.GA</sdk-version>
-	<id>com.ninjablocks.remote</id>
-	<name>Remote</name>
-	<version>12</version>
-	<publisher>NinjaBlocks</publisher>
-	<url>http://ninjablocks.com</url>
-	<description>The NinjaBlocks Remote Control</description>
-	<copyright>2013 by NinjaBlocks Pty. Ltd.</copyright>
-	<icon>appicon.png</icon>
-	<persistent-wifi>false</persistent-wifi>
-	<prerendered-icon>true</prerendered-icon>
-	<statusbar-style>default</statusbar-style>
-	<statusbar-hidden>false</statusbar-hidden>
-	<fullscreen>false</fullscreen>
-	<navbar-hidden>false</navbar-hidden>
-	<analytics>true</analytics>
-	<guid>567cbe38-35d4-4de4-8cdb-f433a7a555b3</guid>
-	<property name="ti.ui.defaultunit">dp</property>
-	<property name="ti.android.compilejs" type="bool">false</property>
-	<property name="ti.android.fastdev" type="bool">false</property>
-	<property name="ti.android.bug2373.finishfalseroot" type="bool">true</property>
-
-	
-	<!-- 
+    <deployment-targets>
+        <target device="tizen">false</target>
+        <target device="mobileweb">false</target>
+        <target device="iphone">true</target>
+        <target device="ipad">false</target>
+        <target device="android">true</target>
+        <target device="blackberry">false</target>
+    </deployment-targets>
+    <sdk-version>3.1.0.GA</sdk-version>
+    <id>com.ninjablocks.remote</id>
+    <name>Remote</name>
+    <version>13</version>
+    <publisher>NinjaBlocks</publisher>
+    <url>http://ninjablocks.com</url>
+    <description>The NinjaBlocks Remote Control</description>
+    <copyright>2013 by NinjaBlocks Pty. Ltd.</copyright>
+    <icon>appicon.png</icon>
+    <persistent-wifi>false</persistent-wifi>
+    <prerendered-icon>true</prerendered-icon>
+    <statusbar-style>default</statusbar-style>
+    <statusbar-hidden>false</statusbar-hidden>
+    <fullscreen>false</fullscreen>
+    <navbar-hidden>false</navbar-hidden>
+    <analytics>true</analytics>
+    <guid>567cbe38-35d4-4de4-8cdb-f433a7a555b3</guid>
+    <property name="ti.ui.defaultunit">dp</property>
+    <property name="ti.android.compilejs" type="bool">false</property>
+    <property name="ti.android.fastdev" type="bool">false</property>
+    <property name="ti.android.bug2373.finishfalseroot" type="bool">true</property>
+    <!-- 
 	<property name="ti.android.bug2373.disableDetection" type="bool">true</property>
 	<property name="ti.android.bug2373.restartDelay" type="int">500</property>
 	<property name="ti.android.bug2373.finishDelay" type="int">0</property>
@@ -40,54 +38,61 @@
 	<property name="ti.android.bug2373.title">Restart Required</property>
 	<property name="ti.android.bug2373.buttonText">Continue</property>
 	<property name="ti.android.bug2373.finishfalseroot" type="bool">true</property> -->
-	
-	<modules>
-    	<module version="0.2" platform="iphone">com.yydigital.tintswitch</module> 
-    	<module version="1.2" platform="iphone">mattapp.statusbar</module> 
-	</modules>
-	<iphone>
-		<orientations device="iphone">
-			<orientation>Ti.UI.PORTRAIT</orientation>
-			<orientation>Ti.UI.UPSIDE_PORTRAIT</orientation>
-		</orientations>
-		<orientations device="ipad">
-			<orientation>Ti.UI.PORTRAIT</orientation>
-			<orientation>Ti.UI.UPSIDE_PORTRAIT</orientation>
-		</orientations>
-	</iphone>
-	<android xmlns:android="http://schemas.android.com/apk/res/android">
-		<tool-api-level>14</tool-api-level>
-		<manifest android:versionCode="12" android:versionName="12" package="com.ninjablocks.remote" xmlns:android="http://schemas.android.com/apk/res/android">
-			<uses-sdk android:minSdkVersion="14"
-          		android:targetSdkVersion="17"/>
-		
-			<!-- TI_MANIFEST -->
-		
-			<application android:debuggable="false" android:icon="@drawable/appicon" android:label="Remote" android:name="RemoteApplication" android:screenOrientation="portrait" android:theme="@style/Theme.Ninja">
-		
-				<!-- TI_APPLICATION -->
-		
-				<activity android:configChanges="keyboardHidden|orientation|screenSize" android:label="Remote" android:name=".RemoteActivity" android:theme="@style/Theme.Titanium" android:screenOrientation="portrait">
-					<intent-filter>
-						<action android:name="android.intent.action.MAIN"/>
-						<category android:name="android.intent.category.LAUNCHER"/>
-					</intent-filter>
-				</activity>
-		
-				<activity android:configChanges="keyboardHidden|orientation|screenSize" android:name="org.appcelerator.titanium.TiActivity" android:screenOrientation="portrait"/>
-				<activity android:configChanges="keyboardHidden|orientation|screenSize" android:name="org.appcelerator.titanium.TiTranslucentActivity" android:theme="@android:style/Theme.Translucent" android:screenOrientation="portrait" />
-				<activity android:configChanges="keyboardHidden|orientation|screenSize" android:name="org.appcelerator.titanium.TiModalActivity" android:theme="@android:style/Theme.Translucent" android:screenOrientation="portrait"/>
-				<activity android:configChanges="keyboardHidden|orientation|screenSize" android:name="ti.modules.titanium.ui.TiTabActivity" android:screenOrientation="portrait"/>
-				<activity android:name="ti.modules.titanium.ui.android.TiPreferencesActivity"/>
-		
-			</application>
-		
-			<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-			<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-			<uses-permission android:name="android.permission.INTERNET"/>
-			<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-			
-		</manifest>
-	   
-	</android>
+    <modules>
+        <module platform="iphone" version="0.2">com.yydigital.tintswitch</module>
+        <module platform="iphone" version="1.2">mattapp.statusbar</module>
+    </modules>
+    <iphone>
+        <orientations device="iphone">
+            <orientation>Ti.UI.PORTRAIT</orientation>
+            <orientation>Ti.UI.UPSIDE_PORTRAIT</orientation>
+        </orientations>
+        <orientations device="ipad">
+            <orientation>Ti.UI.PORTRAIT</orientation>
+            <orientation>Ti.UI.UPSIDE_PORTRAIT</orientation>
+        </orientations>
+    </iphone>
+    <android xmlns:android="http://schemas.android.com/apk/res/android">
+        <tool-api-level>14</tool-api-level>
+        <manifest android:versionCode="13" android:versionName="13"
+            package="com.ninjablocks.remote" xmlns:android="http://schemas.android.com/apk/res/android">
+            <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="17"/>
+            <!-- TI_MANIFEST -->
+            <application android:debuggable="false"
+                android:icon="@drawable/appicon" android:label="Remote"
+                android:name="RemoteApplication"
+                android:screenOrientation="portrait" android:theme="@style/Theme.Ninja">
+                <!-- TI_APPLICATION -->
+                <activity
+                    android:configChanges="keyboardHidden|orientation|screenSize"
+                    android:label="Remote"
+                    android:name=".RemoteActivity"
+                    android:screenOrientation="portrait" android:theme="@style/Theme.Titanium">
+                    <intent-filter>
+                        <action android:name="android.intent.action.MAIN"/>
+                        <category android:name="android.intent.category.LAUNCHER"/>
+                    </intent-filter>
+                </activity>
+                <activity
+                    android:configChanges="keyboardHidden|orientation|screenSize"
+                    android:name="org.appcelerator.titanium.TiActivity" android:screenOrientation="portrait"/>
+                <activity
+                    android:configChanges="keyboardHidden|orientation|screenSize"
+                    android:name="org.appcelerator.titanium.TiTranslucentActivity"
+                    android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent"/>
+                <activity
+                    android:configChanges="keyboardHidden|orientation|screenSize"
+                    android:name="org.appcelerator.titanium.TiModalActivity"
+                    android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent"/>
+                <activity
+                    android:configChanges="keyboardHidden|orientation|screenSize"
+                    android:name="ti.modules.titanium.ui.TiTabActivity" android:screenOrientation="portrait"/>
+                <activity android:name="ti.modules.titanium.ui.android.TiPreferencesActivity"/>
+            </application>
+            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+        </manifest>
+    </android>
 </ti:app>
