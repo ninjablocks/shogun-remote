@@ -1,9 +1,12 @@
-var Zone = require('/ui/edit/Zone'),
+var ZoneEditor = require('/ui/edit/ZoneEditor'),
 	ActionComposer = require('/ui/edit/ActionComposer'),
-	RFAction = require('/ui/edit/RFAction'),
-	RawAction = require('/ui/edit/RawAction'),
-	DeviceAction = require('/ui/edit/DeviceAction');
+	RFActionEditor = require('/ui/edit/RFActionEditor'),
+	RawActionEditor = require('/ui/edit/RawActionEditor'),
+	ActionEditor = require('/ui/edit/ActionEditor');
 
+
+// This window just sets up the NavigationGroup (or fake NavigationGroup in android).
+// All the actual UI is held in /ui/edit/*
 function EditWindow(button, parentButton) {
 	
 	// Just to make certain we aren't sharing this button... 
@@ -35,14 +38,14 @@ function EditWindow(button, parentButton) {
 	}
 	
 	if (button.type == 'menu') {
-		var mainWindow = new Zone(button, navGroup, saveButton, closeEditWindow);
+		var mainWindow = new ZoneEditor(button, navGroup, saveButton, closeEditWindow);
 	} else if (button.type == 'action') {
 		if (button.editor == 'rf'){
-			var mainWindow = new RFAction(button, parentButton, navGroup, saveButton);
+			var mainWindow = new RFActionEditor(button, parentButton, navGroup, saveButton);
 		} else if (button.editor == 'raw'){
-			var mainWindow = new RawAction(button, parentButton, navGroup, saveButton);
+			var mainWindow = new RawActionEditor(button, parentButton, navGroup, saveButton);
 		} else if (button.widget == 'light' || button.widget == 'action') {
-			var mainWindow = new DeviceAction(button, parentButton, navGroup, saveButton);
+			var mainWindow = new ActionEditor(button, parentButton, navGroup, saveButton);
 		} else {
 			Ti.API.info('Making actioncomposer');
 			var mainWindow = new ActionComposer(button, parentButton, navGroup, saveButton);

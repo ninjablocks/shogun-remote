@@ -1,7 +1,7 @@
-var SetColour = require('/ui/edit/SetColour'),
-	IconWindow = require('/ui/edit/Icon');
+var ColourPicker = require('/ui/edit/ColourPicker'),
+	IconPicker = require('/ui/edit/IconPicker');
 
-function DeviceAction(button, parentButton, navGroup, onSave) {
+function ActionEditor(button, parentButton, navGroup, onSave) {
     
     var isLight = button.widget == 'light';
     
@@ -105,10 +105,10 @@ function DeviceAction(button, parentButton, navGroup, onSave) {
 	        onClick: function() {
 	        	Ti.API.info('Clicked set colour!');
     		
-	    		var setColour = new SetColour(button, function() {
+	    		var picker = new ColourPicker(button, function() {
 	    			nameField.value = button.title;
 	    		});
-	    		navGroup.open(setColour);
+	    		navGroup.open(picker);
 	    		selectItem(2);
 	    	}
 	    });
@@ -127,15 +127,15 @@ function DeviceAction(button, parentButton, navGroup, onSave) {
 	        onClick: function(e) {
 	        	var item = e.section.getItemAt(e.itemIndex);
 	        	
-				IconWindow.onIconSelected = function(icon) {
+				IconPicker.onIconSelected = function(icon) {
 					Ti.API.info('Icon Selected - ' + icon);
 					button.image = icon;
 					item.properties.image = '/HTML/icons/'+button.image+'.png';
 					e.section.updateItemAt(e.itemIndex, item);
-					navGroup.close(IconWindow);
+					navGroup.close(IconPicker);
 				};
 				
-				navGroup.open(IconWindow);
+				navGroup.open(IconPicker);
 	    	}
 	    }
     ];
@@ -165,4 +165,4 @@ function DeviceAction(button, parentButton, navGroup, onSave) {
     return self;
 }
 
-module.exports = DeviceAction;
+module.exports = ActionEditor;

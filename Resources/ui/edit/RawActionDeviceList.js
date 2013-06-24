@@ -1,6 +1,6 @@
-var RawAction = require('/ui/edit/RawAction');
+var RawActionEditor = require('/ui/edit/RawActionEditor');
 
-function RawActionType(button, parentButton, navGroup, onSave) {
+function RawActionDeviceList(button, parentButton, navGroup, onSave) {
 
     // Create our main window
     var self = Ninja.UI.createWindow({
@@ -37,7 +37,7 @@ function RawActionType(button, parentButton, navGroup, onSave) {
 		button.editor = 'raw';
 		button.devices = [row.device.guid];
 
-		navGroup.open(new RawAction(button, parentButton, navGroup, onSave));
+		navGroup.open(new RawActionEditor(button, parentButton, navGroup, onSave));
 	});
 
 	self.add(listView);
@@ -45,4 +45,4 @@ function RawActionType(button, parentButton, navGroup, onSave) {
     return self;
 }
 
-module.exports = RawActionType;
+module.exports = RawActionDeviceList;

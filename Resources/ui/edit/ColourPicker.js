@@ -1,7 +1,7 @@
-var Color = require('/HTML/lib/one-color'),
+var Color = require('/lib/one-color'),
 	ntc = require('/lib/name-that-colour');
 
-function SetColour(btn, onColour) {
+function ColourPicker(btn, onColour) {
 
     // Create our main window
     var self = Ninja.UI.createWindow({
@@ -86,4 +86,4 @@ function SetColour(btn, onColour) {
     return self;
 }
 
-module.exports = SetColour;
+module.exports = ColourPicker;

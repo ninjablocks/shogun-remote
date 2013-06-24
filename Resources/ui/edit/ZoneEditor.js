@@ -1,14 +1,12 @@
-var SetColour = require('/ui/edit/SetColour'),
-	IconWindow = require('/ui/edit/Icon');
+var IconPicker = require('/ui/edit/IconPicker');
 
-function RFAction(button, parentButton, navGroup, onSave, deviceName, deviceType) {
+function ZoneEditor(button, navGroup, onSave) {
 
     // Create our main window
     var self = Ninja.UI.createWindow({
-    	title: button.title
+		title: 'Group'
     });
     
-
     if (!ios) {
     	self.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN;
     }
@@ -27,7 +25,7 @@ function RFAction(button, parentButton, navGroup, onSave, deviceName, deviceType
     }));
     
     var nameField = Ti.UI.createTextField({
-    	hintText: 'e.g. "My Button"',
+    	hintText: 'e.g. "Kitchen Lights"',
     	textAlign: 'left',
     	width:'82%'
     });
@@ -52,15 +50,16 @@ function RFAction(button, parentButton, navGroup, onSave, deviceName, deviceType
 	        onClick: function(e) {
 	        	var item = e.section.getItemAt(e.itemIndex);
 	        	
-				IconWindow.onIconSelected = function(icon) {
+	        	
+	        	IconPicker.onIconSelected = function(icon) {
 					Ti.API.info('Icon Selected - ' + icon);
 					button.image = icon;
 					item.properties.image = '/HTML/icons/'+button.image+'.png';
 					e.section.updateItemAt(e.itemIndex, item);
-					navGroup.close(IconWindow);
+					navGroup.close(IconPicker);
 				};
 				
-				navGroup.open(IconWindow);
+				navGroup.open(IconPicker);
 	    	}
 	    }
     ];
@@ -80,7 +79,7 @@ function RFAction(button, parentButton, navGroup, onSave, deviceName, deviceType
 	var save = Ninja.UI.createSaveButton();
 	
 	save.addEventListener("click", function() {
-		Ti.API.info("Saving button from RFAction : " + JSON.stringify(button));
+		Ti.API.info("Saving button from Zone : " + JSON.stringify(button));
 		button.title = nameField.value;
 		onSave(button);
 	});
@@ -90,4 +89,4 @@ function RFAction(button, parentButton, navGroup, onSave, deviceName, deviceType
     return self;
 }
 
-module.exports = RFAction;
+module.exports = ZoneEditor;

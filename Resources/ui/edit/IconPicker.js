@@ -1,6 +1,7 @@
+// As this window is instantiated on load, we don't have the global Ninja object yet.
 var Ninja = {UI:require('/lib/Ninja.UI')};
 
-function Icon() {
+function IconPicker() {
 
     // Create our main window
     var self = Ninja.UI.createWindow({
@@ -27,9 +28,6 @@ function Icon() {
     var iconPath = (ios?'':'../../') + 'HTML/icons';
     
 	Titanium.Filesystem.getFile(iconPath).getDirectoryListing().forEach(function(image) {
-		
-		//Ti.API.warn('LOADING ICON ', image);
-		
 		var btn = Ti.UI.createImageView({
 			image: iconPath + '/' + image,
 			width: '64dp',
@@ -41,10 +39,9 @@ function Icon() {
 		});
 		
 		scrollView.add(btn);
-		//Ti.API.info(image);
 	});
     
     return self;
 }
 
-module.exports = new Icon();
+module.exports = new IconPicker();

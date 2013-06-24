@@ -1,13 +1,14 @@
-var SetColour = require('/ui/edit/SetColour'),
-	IconWindow = require('/ui/edit/Icon');
+var ColourPicker = require('/ui/edit/ColourPicker'),
+	IconPicker = require('/ui/edit/IconPicker');
 
-function Zone(button, navGroup, onSave) {
+function RFActionEditor(button, parentButton, navGroup, onSave, deviceName, deviceType) {
 
-    // Create our main window
+// Create our main window
     var self = Ninja.UI.createWindow({
-		title: 'Group'
+    	title: button.title
     });
     
+
     if (!ios) {
     	self.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN;
     }
@@ -26,7 +27,7 @@ function Zone(button, navGroup, onSave) {
     }));
     
     var nameField = Ti.UI.createTextField({
-    	hintText: 'e.g. "Kitchen Lights"',
+    	hintText: 'e.g. "My Button"',
     	textAlign: 'left',
     	width:'82%'
     });
@@ -51,15 +52,15 @@ function Zone(button, navGroup, onSave) {
 	        onClick: function(e) {
 	        	var item = e.section.getItemAt(e.itemIndex);
 	        	
-				IconWindow.onIconSelected = function(icon) {
+				IconPicker.onIconSelected = function(icon) {
 					Ti.API.info('Icon Selected - ' + icon);
 					button.image = icon;
 					item.properties.image = '/HTML/icons/'+button.image+'.png';
 					e.section.updateItemAt(e.itemIndex, item);
-					navGroup.close(IconWindow);
+					navGroup.close(IconPicker);
 				};
 				
-				navGroup.open(IconWindow);
+				navGroup.open(IconPicker);
 	    	}
 	    }
     ];
@@ -79,7 +80,7 @@ function Zone(button, navGroup, onSave) {
 	var save = Ninja.UI.createSaveButton();
 	
 	save.addEventListener("click", function() {
-		Ti.API.info("Saving button from Zone : " + JSON.stringify(button));
+		Ti.API.info("Saving button from RFAction : " + JSON.stringify(button));
 		button.title = nameField.value;
 		onSave(button);
 	});
@@ -89,4 +90,4 @@ function Zone(button, navGroup, onSave) {
     return self;
 }
 
-module.exports = Zone;
+module.exports = RFActionEditor;

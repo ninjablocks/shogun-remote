@@ -1,6 +1,6 @@
-var RFAction = require('/ui/edit/RFAction');
+var RFActionEditor = require('/ui/edit/RFActionEditor');
 
-function RFActionType(button, parentButton, navGroup, onSave) {
+function RFActionDeviceList(button, parentButton, navGroup, onSave) {
 
     // Create our main window
     var self = Ninja.UI.createWindow({
@@ -46,7 +46,7 @@ function RFActionType(button, parentButton, navGroup, onSave) {
 		button.editor = 'rf';
 		button.devices = [row.device.guid];
 		
-		navGroup.open(new RFAction(button, parentButton, navGroup, onSave));
+		navGroup.open(new RFActionEditor(button, parentButton, navGroup, onSave));
 	});
 	
 	self.add(listView);
@@ -54,4 +54,4 @@ function RFActionType(button, parentButton, navGroup, onSave) {
     return self;
 }
 
-module.exports = RFActionType;
+module.exports = RFActionDeviceList;

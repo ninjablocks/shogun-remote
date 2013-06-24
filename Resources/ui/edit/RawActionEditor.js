@@ -1,6 +1,6 @@
-var IconWindow = require('/ui/edit/Icon');
+var IconPicker = require('/ui/edit/IconPicker');
 
-function RawAction(button, parentButton, navGroup, onSave, deviceName, deviceType) {
+function RawActionEditor(button, parentButton, navGroup, onSave, deviceName, deviceType) {
 
     var validJson = !!button.state;
 
@@ -84,15 +84,15 @@ function RawAction(button, parentButton, navGroup, onSave, deviceName, deviceTyp
 		template: Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT,
 		onClick: function(e) {
 			var item = e.section.getItemAt(e.itemIndex);
-			IconWindow.onIconSelected = function(icon) {
+			IconPicker.onIconSelected = function(icon) {
 				Ti.API.info('Icon Selected - ' + icon);
 				button.image = icon;
 				item.properties.image = '/HTML/icons/'+button.image+'.png';
 				e.section.updateItemAt(e.itemIndex, item);
-				navGroup.close(IconWindow);
+				navGroup.close(IconPicker);
 			};
 			
-			navGroup.open(IconWindow);
+			navGroup.open(IconPicker);
 
 		}
 	}
@@ -133,4 +133,4 @@ function RawAction(button, parentButton, navGroup, onSave, deviceName, deviceTyp
     return self;
 }
 
-module.exports = RawAction;
+module.exports = RawActionEditor;

@@ -1,6 +1,6 @@
-var ActionType = require('/ui/edit/ActionType'),
-	RFActionType = require('/ui/edit/RFActionType'),
-	RawActionType = require('/ui/edit/RawActionType');
+var ActionDeviceList = require('/ui/edit/ActionDeviceList'),
+	RFActionDeviceList = require('/ui/edit/RFActionDeviceList'),
+	RawActionDeviceList = require('/ui/edit/RawActionDeviceList');
 	
 function ActionComposer(button, parentButton, navGroup, onSave) {
 
@@ -33,9 +33,9 @@ function ActionComposer(button, parentButton, navGroup, onSave) {
 	        },
 	        template: Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT
 	    }, {
-			window: RFActionType,
+			window: RFActionDeviceList,
 	        properties: {
-	            title: 'RF-433 and HID Actions',
+	            title: 'RF Actions',
 	            image: '/images/rf@2x.png',
 	            accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_DISCLOSURE
 	        },
@@ -57,7 +57,7 @@ function ActionComposer(button, parentButton, navGroup, onSave) {
 	
 	if (developerMode) {
 		data.push({
-			window: RawActionType,
+			window: RawActionDeviceList,
 			properties: {
 			    title: 'Hacker Actions',
 			    image: '/images/hacker@2x.png',
@@ -72,7 +72,7 @@ function ActionComposer(button, parentButton, navGroup, onSave) {
 	
 	listView.addEventListener('itemclick', function(e) {
 		if (data[e.itemIndex].type) {
-			var actionWindow = new ActionType(button, parentButton, navGroup, onSave, data[e.itemIndex].type);
+			var actionWindow = new ActionDeviceList(button, parentButton, navGroup, onSave, data[e.itemIndex].type);
 		} else {
 			var actionWindow = data[e.itemIndex].window(button, parentButton, navGroup, onSave);
 		}

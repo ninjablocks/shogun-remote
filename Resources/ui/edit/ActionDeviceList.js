@@ -1,6 +1,6 @@
-var DeviceAction = require('/ui/edit/DeviceAction');
+var ActionEditor = require('/ui/edit/ActionEditor');
 
-function ActionType(button, parentButton, navGroup, onSave, deviceType) {
+function ActionDeviceList(button, parentButton, navGroup, onSave, deviceType) {
 
     // Create our main window
     var self = Ninja.UI.createWindow({
@@ -96,7 +96,7 @@ function ActionType(button, parentButton, navGroup, onSave, deviceType) {
 			button.widget = 'action';
 		}
 		
-		navGroup.open(new DeviceAction(button, parentButton, navGroup, onSave));
+		navGroup.open(new ActionEditor(button, parentButton, navGroup, onSave));
 	});
 	
 	self.add(listView);
@@ -104,4 +104,4 @@ function ActionType(button, parentButton, navGroup, onSave, deviceType) {
     return self;
 }
 
-module.exports = ActionType;
+module.exports = ActionDeviceList;
