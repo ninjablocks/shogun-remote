@@ -1,6 +1,7 @@
 var ActionDeviceList = require('/ui/edit/ActionDeviceList'),
 	RFActionDeviceList = require('/ui/edit/RFActionDeviceList'),
-	RawActionDeviceList = require('/ui/edit/RawActionDeviceList');
+	RawActionDeviceList = require('/ui/edit/RawActionDeviceList'),
+	RuleList = require('/ui/edit/RuleActionList');
 	
 function ActionComposer(button, parentButton, navGroup, onSave) {
 
@@ -37,6 +38,14 @@ function ActionComposer(button, parentButton, navGroup, onSave) {
 	        properties: {
 	            title: 'RF Actions',
 	            image: '/images/rf@2x.png',
+	            accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_DISCLOSURE
+	        },
+	        template: Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT
+	    }/*, {
+			window: RuleList,
+	        properties: {
+	            title: 'Rules',
+	            image: '/images/rule@2x.png',
 	            accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_DISCLOSURE
 	        },
 	        template: Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT

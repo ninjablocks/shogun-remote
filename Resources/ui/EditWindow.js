@@ -2,6 +2,7 @@ var ZoneEditor = require('/ui/edit/ZoneEditor'),
 	ActionComposer = require('/ui/edit/ActionComposer'),
 	RFActionEditor = require('/ui/edit/RFActionEditor'),
 	RawActionEditor = require('/ui/edit/RawActionEditor'),
+	RuleActionEditor = require('/ui/edit/RuleActionEditor'),
 	ActionEditor = require('/ui/edit/ActionEditor');
 
 
@@ -42,6 +43,8 @@ function EditWindow(button, parentButton) {
 	} else if (button.type == 'action') {
 		if (button.editor == 'rf'){
 			var mainWindow = new RFActionEditor(button, parentButton, navGroup, saveButton);
+		} else if (button.editor == 'rule'){
+			var mainWindow = new RuleActionEditor(button, parentButton, navGroup, saveButton);
 		} else if (button.editor == 'raw'){
 			var mainWindow = new RawActionEditor(button, parentButton, navGroup, saveButton);
 		} else if (button.widget == 'light' || button.widget == 'action') {

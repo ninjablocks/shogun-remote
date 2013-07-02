@@ -260,6 +260,10 @@ Ti.App.addEventListener('ninja.devices', function(e) {
 
 });
 
+Ti.App.addEventListener('ninja.rules', function(e) {
+	rules = e.rules;
+});
+
 var token = Ti.App.Properties.getString('token');
 
 if (token) {
@@ -289,12 +293,12 @@ ios && createApplicationWindow();
 
 var started = false;
 function onReady() {
-	l("OnReady- controlReady?" + !!controlReady + " token?" + !!token + " widgetsReady?" + !!widgetsReady);
-	if (controlReady && token && widgetsReady && devices && !started) {
+	l("OnReady- controlReady?" + !!controlReady + " token?" + !!token + " started?" + started + ' devices? ' + !!devices);
+	if (controlReady && token && devices && !started) {
 		loadButtons();
 		
 		started = true;
-		l("We are ready. Sending token to webview : " + token);
+		l("We are ready. Sending buttons and devices to webview");
 
 		Ti.App.fireEvent('publish', {data:[buttons, devices], topic: 'control.load'});
 		app.visible = true;
@@ -323,6 +327,7 @@ function start() {
 		api = ninjablocks.app({user_access_token:token});
 
 		fetchDevices();
+		fetchRules();
 
 		onReady();
 
@@ -361,6 +366,25 @@ function fetchDevices() {
 	});
 
 	client.open('GET', 'https://api.ninja.is/rest/v0/devices?user_access_token=' + token);
+	client.setRequestHeader("Content-Type", 'application/json');
+	client.send();
+}
+
+function fetchRules() {
+	var client = Ti.Network.createHTTPClient({
+		onload : function(e) {
+			Ti.API.info("Received rules text: " + this.responseText);
+			//alert('ajax success');
+			var result = JSON.parse(this.responseText);
+			var rules = result.data;
+
+			Ti.App.fireEvent('ninja.rules', {rules:rules});
+		},
+		// function called when an error occurs, including a timeout
+		onerror : onHttpError('fetching rules')
+	});
+
+	client.open('GET', 'https://api.ninja.is/rest/v0/rule?user_access_token=' + token);
 	client.setRequestHeader("Content-Type", 'application/json');
 	client.send();
 }
@@ -409,7 +433,10 @@ Ti.App.addEventListener('resume',function(e){
 
 //* Fetch the users devices every 60 seconds, unless we're running in the background
 setInterval(function() {
-	if (!backgrounded && token) fetchDevices();
+	if (!backgrounded && token) {
+		fetchDevices();
+		fetchRules();
+	}
 }, 1000 * 60);
 //*/
 Ti.App.addEventListener('fetchDevices', fetchDevices);
