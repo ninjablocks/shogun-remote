@@ -8,68 +8,6 @@ var LoginWindow = require('ui/LoginWindow'),
 
 Titanium.include("lib/node-ninja-blocks.js");
 
-var statusbar;
-if (ios) {
-	require('com.yydigital.tintswitch');
-	statusbar = require('mattapp.statusbar');
-} else {
-	statusbar = {};
-	
-	var nid = 0;
-	var lastMessage = null;
-	
-	statusbar.postMessage = statusbar.postImmediateErrorMessage = statusbar.postImmediateFinishMessage = function(text, durationSeconds) {
-		/*Ti.UI.createNotification({
-			message: text,
-			duration: Titanium.UI.NOTIFICATION_DURATION_SHORT
-		}).show();*/
-		
-		if (text == lastMessage) {
-			return;
-		}
-		lastMessage = text;
-		
-		Titanium.Android.NotificationManager.cancelAll();
-		
-		var x = nid++;
-		Titanium.Android.NotificationManager.notify(
-        x, // <-- this is an ID that we can use to clear the notification later
-        Ti.Android.createNotification({
-            contentTitle: text,
-           // contentText: 'Swiss',
-            tickerText: text
-        }));
-        
-        setTimeout(function() {
-        	Titanium.Android.NotificationManager.cancel(x);
-        }, durationSeconds * 1000)
-
-	};
-
-	statusbar.postMessageInProgress = function(text) {
-		/*Ti.UI.createNotification({
-			message: text,
-			duration: Titanium.UI.NOTIFICATION_DURATION_SHORT
-		}).show();*/
-		
-		if (text == lastMessage) {
-			return;
-		}
-		lastMessage = text;
-		
-		Titanium.Android.NotificationManager.cancelAll();
-		
-		Titanium.Android.NotificationManager.notify(
-        0, // <-- this is an ID that we can use to clear the notification later
-        Ti.Android.createNotification({
-            contentTitle: text,
-           // contentText: 'Swiss',
-            tickerText: text
-        }));
-	};
-
-}
-
 Ti.API.info('NinjaBlocks starting up. IOS?' + ios);
 
 var developerMode = Ti.App.Properties.getBool('developerMode');
@@ -111,9 +49,9 @@ Ti.App.addEventListener('webview.log', function(e) {
 
 var defaultButtons = require('./defaultButtons');
 
-
 var devices, buttons, localIps = Ti.App.Properties.getObject('localIps') || {};
 
+var statusbar = require('./ui/StatusBar');
 
 var user, userPublished = false;
 var blocksSeen = {};
@@ -247,7 +185,8 @@ Ti.App.addEventListener('control.button.update', function(e) {
 
 Ti.App.addEventListener('ninja.devices', function(e) {
 
-	var newDevices = e.data[0];
+	var newDevices = e.devices;
+	Ti.API.info('Fetched ' + newDevices.length + ' devices.');
 
 	if (!devices || Object.keys(newDevices).length != Object.keys(devices).length) {
 		statusbar.postMessage('Found ' + Object.keys(newDevices).length + ' Ninja devices', 2);
@@ -327,7 +266,7 @@ function start() {
 		api = ninjablocks.app({user_access_token:token});
 
 		fetchDevices();
-		fetchRules();
+		//fetchRules();
 
 		onReady();
 
@@ -357,9 +296,11 @@ function fetchDevices() {
 				if (devices[id].did != 999) {
 					filteredDevices[id] = devices[id];
 				}
+				Ti.App.fireEvent('ninja.devices', {devices:filteredDevices});
+			} catch(x) {
+				Ti.API.info("Fetch devices exception : " + x);
 			}
-
-			Ti.App.fireEvent('publish', {data:[filteredDevices], topic: 'ninja.devices'});
+			
 		},
 		// function called when an error occurs, including a timeout
 		onerror : onHttpError('fetching devices')
@@ -398,7 +339,7 @@ function publishUser() {
 function fetchUser() {
 	var client = Ti.Network.createHTTPClient({
 		onload : function(e) {
-			Ti.API.info("Received text: " + this.responseText);
+			Ti.API.info("Received user text: " + this.responseText);
 			//alert('ajax success');
 			var result = JSON.parse(this.responseText);
 			user = result;
@@ -435,7 +376,7 @@ Ti.App.addEventListener('resume',function(e){
 setInterval(function() {
 	if (!backgrounded && token) {
 		fetchDevices();
-		fetchRules();
+		//fetchRules();
 	}
 }, 1000 * 60);
 //*/
@@ -597,10 +538,13 @@ function loadWidgets() {
 		var id = file.substr(0, file.indexOf('.'));
 		file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, "HTML/widgets/" + file);
 		var blob = file.read();
-		var readText = blob.text;
+		if (blob && blob.text) {
+			var readText = blob.text;
 
-		source[id] = source[id] || {};
-		source[id][type] = readText;
+			source[id] = source[id] || {};
+			source[id][type] = readText;
+		}
+		
 	});
 
 	l('Loaded source ' + JSON.stringify(source));
