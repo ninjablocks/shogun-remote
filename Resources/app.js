@@ -296,10 +296,9 @@ function fetchDevices() {
 				if (devices[id].did != 999) {
 					filteredDevices[id] = devices[id];
 				}
-				Ti.App.fireEvent('ninja.devices', {devices:filteredDevices});
-			} catch(x) {
-				Ti.API.info("Fetch devices exception : " + x);
 			}
+			
+			Ti.App.fireEvent('ninja.devices', {devices:filteredDevices});
 			
 		},
 		// function called when an error occurs, including a timeout
