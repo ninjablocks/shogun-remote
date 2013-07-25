@@ -68,7 +68,7 @@ function ApplicationWindow() {
 		var btn = e.data[0], 
 			parentBtn = e.data[1];
 
-		Ti.API.info('Creating new button ' + print(btn));
+		Ti.API.info('Creating new button ' + JSON.stringify(btn));
 		
 		if (parentBtn) {
 			// No point asking what type, they can't do nested menus anyway

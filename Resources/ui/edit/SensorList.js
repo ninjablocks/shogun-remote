@@ -9,23 +9,25 @@ function SensorList(button, parentButton, navGroup, onSave) {
 
     var deviceData = [];
 
-    for (var deviceId in devices) {
-    	
-		var device = devices[deviceId];
-
-		if (device.has_time_series) {
-			deviceData.push({
-				device: device,
-				properties: {
-				    title: device.shortName,
-				    image: 'hacker.png',
-				    accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_DISCLOSURE
-				},
-				template: Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT
-		    });
-		}
-
-    }
+	Ninja.Data.devices.get(function(devices) {
+	    for (var deviceId in devices) {
+	    	
+			var device = devices[deviceId];
+	
+			if (device.has_time_series) {
+				deviceData.push({
+					device: device,
+					properties: {
+					    title: device.shortName,
+					    image: 'hacker.png',
+					    accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_DISCLOSURE
+					},
+					template: Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT
+			    });
+			}
+	
+	    }
+	});
 
     var deviceSection = Ninja.UI.createListSection({items: deviceData});
 	var listView = Ninja.UI.createListView({sections: [deviceSection]});

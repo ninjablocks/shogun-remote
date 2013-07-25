@@ -5,16 +5,29 @@ function RemoteApplication() {
 	
 	l('Building RemoteApplication');
 	
+	
+	// These events are all fired from webkit
 	Ti.App.addEventListener('control.ready', this.webkitReady.bind(this));
 	
 	Ti.App.addEventListener('control.button.confirmDelete', function(e) {
-		this.confirmDelete(e.data[0]);
+		this.onConfirmDelete(e.data[0]);
+	}.bind(this));
+	
+	Ti.App.addEventListener('control.button.add', function(e) {
+		this.onAddButton(e.button);
 	}.bind(this));
 	
 	Ti.App.addEventListener('control.states', function(e) {
 		this.onActuate(e.node, e.states);
 	}.bind(this));
 	
+	Ti.App.addEventListener('control.button.move', function(e) {
+		this.onMoveButton(e.data[0], e.data[1]);
+	}.bind(this));
+	
+	Ti.App.addEventListener('control.button.update', function(e) {
+		this.onUpdateButton(e.button);
+	}.bind(this));
 	
 	if (Ninja.Data.token.get()) {
 		this.start();
@@ -22,7 +35,87 @@ function RemoteApplication() {
 		this.login();
 	}
 	
-}
+};
+
+RemoteApplication.prototype.onUpdateButton = function(button) {
+	var oldButton;
+	
+	var buttons = Ninja.Data.buttons.get();
+	
+	buttons = _.filter(buttons, function(btn) {
+		if (btn.id == button.id) {
+			oldButton = btn;
+			return false;
+		} else {
+			return true;
+		}
+	});
+	buttons.push(button);
+	
+	Ninja.Data.buttons.save(buttons);
+
+	Ti.App.fireEvent('publish', {data:[button, oldButton], topic: 'control.button.updated'});
+};
+
+RemoteApplication.prototype.onAddButton = function(button) {
+	var buttons = Ninja.Data.buttons.get();
+	button.id = new Date().getTime();
+	buttons.push(button);
+	Ninja.Data.buttons.save(buttons);
+	Ninja.App.fireWebkit('control.button.added', button);
+};
+
+RemoteApplication.prototype.onMoveButton = function(button, isTarget) {
+	
+	var buttons = Ninja.Data.buttons.get();
+
+	var oldButton = _.filter(buttons, function(b) {return b.id == button.id;})[0];
+
+	console.log('Button ', button.id, 'move from', oldButton.x, '-', oldButton.y, 'to', button.x, '-', button.y);
+
+	if (!isTarget) {
+		// We need to check if there was another button already in this spot, and swap with it.
+		l('Searching for buttons already in this spot');
+		var target = _.filter(buttons, function(b) {
+			l('Checking', b, b.parent == button.parent, b.x == button.x, b.y == button.y);
+			if (b.parent == button.parent && b.x == button.x && b.y == button.y) {
+				return true;
+			}
+			return false;
+		});
+		l('Found', target);
+
+		if (target.length) {
+			target = _.clone(target[0]);
+			target.x = oldButton.x;
+			target.y = oldButton.y;
+
+			Ti.App.fireEvent('control.button.move', {data:[target, true]});
+		}
+	}
+
+	if (button.type == 'menu') {
+
+		var childTarget = _.filter(buttons, function(b) {
+			if (b.parent == button.id && b.x == button.x && b.y == button.y) {
+				return true;
+			}
+			return false;
+		});
+
+		if (childTarget.length) {
+
+			childTarget = _.clone(childTarget[0]);
+			childTarget.x = oldButton.x;
+			childTarget.y = oldButton.y;
+			
+			Ti.App.fireEvent('control.button.update', {button: childTarget});
+
+		}
+	}
+
+	Ti.App.fireEvent('control.button.update', {button: button});
+};
 
 RemoteApplication.prototype.login = function() {
 	l('Showing login window');
@@ -52,7 +145,7 @@ RemoteApplication.prototype.webkitReady = function() {
 
 };
 
-RemoteApplication.prototype.confirmDelete = function(btn) {
+RemoteApplication.prototype.onConfirmDelete = function(btn) {
 	l('Confirming delete of button button ' + print(btn));
 	
 	var confirm = Titanium.UI.createAlertDialog({

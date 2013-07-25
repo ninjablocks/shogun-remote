@@ -58,21 +58,23 @@ function ActionDeviceList(button, parentButton, navGroup, onSave, deviceType) {
 	    }
 	];
     
-    for (var deviceId in devices) {
-    	var device = devices[deviceId];
-    	if (deviceType.device_type.indexOf(device.device_type) > -1) {
-    		deviceData.push({
-    			deviceName: device.shortName,
-		    	device: device,
-		        properties: {
-		            title: device.shortName,
-		            image: 'images/'+deviceType.device_type+'.png',
-		            accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_DISCLOSURE
-		        },
-		        template: Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT
-		    });
-    	}
-    }
+    Ninja.Data.devices.get(function(devices) {
+	    for (var deviceId in devices) {
+	    	var device = devices[deviceId];
+	    	if (deviceType.device_type.indexOf(device.device_type) > -1) {
+	    		deviceData.push({
+	    			deviceName: device.shortName,
+			    	device: device,
+			        properties: {
+			            title: device.shortName,
+			            image: 'images/'+deviceType.device_type+'.png',
+			            accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_DISCLOSURE
+			        },
+			        template: Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT
+			    });
+	    	}
+	    }
+	});
     
    
     var deviceSection = Ninja.UI.createListSection({items: deviceData/*, headerTitle: 'Device Actions'*/});

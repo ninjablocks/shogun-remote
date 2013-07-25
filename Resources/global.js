@@ -27,6 +27,17 @@ function setDeveloperMode(mode) {
 	}
 }
 
+var wakaiMode = Ti.App.Properties.getBool('wakaiMode');
+
+function setWakaiMode(mode, hideMessage) {
+	wakaiMode = mode;
+
+	if (!hideMessage) {
+		statusbar.postMessage('Wakai mode - ' + (mode?'Enabled':'Disabled'));
+	}
+	Ti.App.Properties.setBool('wakaiMode', wakaiMode);
+}
+
 if (!Function.prototype.bind) {
   Function.prototype.bind = function (oThis) {
     if (typeof this !== "function") {

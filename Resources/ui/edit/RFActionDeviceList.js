@@ -10,26 +10,28 @@ function RFActionDeviceList(button, parentButton, navGroup, onSave) {
 
     var deviceData = [];
     
-    for (var deviceId in devices) {
-    	var device = devices[deviceId];
-    	if (device.device_type == 'rf433') {
-    		for (var subDeviceId in device.subDevices) {
-    			subDevice = device.subDevices[subDeviceId];
-    			deviceData.push({
-	    			deviceName: device.shortName,
-			    	device: device,
-			    	subDevice: subDevice,
-			        properties: {
-			            title: subDevice.shortName,
-			            image: 'rf.png',
-			            accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_DISCLOSURE
-			        },
-			        template: Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT
-			    });
-    		}
-    		
-    	}
-    }
+    Ninja.Data.devices.get(function(devices) {
+	    for (var deviceId in devices) {
+	    	var device = devices[deviceId];
+	    	if (device.device_type == 'rf433') {
+	    		for (var subDeviceId in device.subDevices) {
+	    			subDevice = device.subDevices[subDeviceId];
+	    			deviceData.push({
+		    			deviceName: device.shortName,
+				    	device: device,
+				    	subDevice: subDevice,
+				        properties: {
+				            title: subDevice.shortName,
+				            image: 'rf.png',
+				            accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_DISCLOSURE
+				        },
+				        template: Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT
+				    });
+	    		}
+	    		
+	    	}
+	    }
+	});
     
    
     var deviceSection = Ninja.UI.createListSection({items: deviceData/*, headerTitle: 'Device Actions'*/});
