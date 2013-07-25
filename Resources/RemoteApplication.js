@@ -146,7 +146,7 @@ RemoteApplication.prototype.webkitReady = function() {
 };
 
 RemoteApplication.prototype.onConfirmDelete = function(btn) {
-	l('Confirming delete of button button ' + print(btn));
+	l('Confirming delete of button button ' + JSON.stringify(btn));
 	
 	var confirm = Titanium.UI.createAlertDialog({
 		title: 'Delete "' + btn.title + '"',

@@ -19,7 +19,7 @@ me.updateAll = function() {
 };
 
 me.stopUpdating = function() {
-	clearInterval(updateInterval);
+	if (updateInterval) clearInterval(updateInterval);
 };
 
 var token = Ti.App.Properties.getString('token');
