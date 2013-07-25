@@ -16,14 +16,10 @@
 	var source = {};
 
 	var widgetScope = {};
-
-	if (Ti) {
-		Ti.App.addEventListener('widgets.loaded', function(e) {
-			console.log("LOADED WIDGETS : " + JSON.stringify(e.source));
-			source = e.source;
-			$.publish('widgets.ready');
-		});
-	}
+	
+	ns.load = function(s) {
+		source = s;
+	};
 
 	function applyScopedWidgetStyle(style, scope, parentSelector){
 		var css = '';

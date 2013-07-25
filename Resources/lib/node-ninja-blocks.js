@@ -47,7 +47,7 @@ if (typeof ninjablocks == 'undefined') {
 		}
 
 		client.open(opts.method, opts.url);
-		client.setRequestHeader("Content-Type", opts.contentType);
+		client.setRequestHeader("Content-Type", 'application/json');
 		client.send(opts.data);
 
 	},

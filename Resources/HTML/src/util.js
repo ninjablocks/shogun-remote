@@ -7,8 +7,7 @@ window.id = Math.floor(Math.random() * 100);
 // Titanium's log only allows one argument :/
 function fire(level) {
 	return function() {
-		return;
-		/*var strings = _.map(Array.prototype.slice.call(arguments), function(i) {
+		var strings = _.map(Array.prototype.slice.call(arguments), function(i) {
 			try {
 				if (typeof i == 'string' || i === null || i === undefined || typeof i === 'number' || typeof i === 'boolean') {
 					return i;
@@ -22,7 +21,7 @@ function fire(level) {
 				return '[BAD CYCLICAL] ' + i;
 			}
 		});
-		Ti.App.fireEvent('webview.log', {data:window.id + ' - ' + strings.join(', '), level: level});*/
+		Ti.App.fireEvent('webview.log', {data:window.id + ' - ' + strings.join(', '), level: level});
 	};
 }
 if (Ti) {
@@ -169,7 +168,7 @@ var tiEventListeners = [];
         };
 
         if (Ti) {
-            //Ti.App.fireEvent('*', {data:[], topic: topic, windowId: window.id});
+            Ti.App.fireEvent('*', {data:[], topic: topic, windowId: window.id});
         }
         _.each(cache['*']||[], go);
 

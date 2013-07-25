@@ -1,6 +1,8 @@
 
 function SettingsWindow(button, parentButton) {
 	
+	l('SettingsWindow Initialising');
+	
 	var gong = Ti.Media.createSound({url:"/sound/Asian Gong Stinger.wav"}),
 		hiyaa = Ti.Media.createSound({url:"/sound/hiyaa.wav"});
 	
@@ -18,6 +20,8 @@ function SettingsWindow(button, parentButton) {
     if (!ios) {
     	win.backgroundColor = '#ffffff';
     }
+    
+	l('SettingsWindow 2');
 	
 	var close = Ninja.UI.createSaveButton({
 	    title: "Close"
@@ -40,6 +44,7 @@ function SettingsWindow(button, parentButton) {
 	
 	ios && (reset.color = "#5a5570");
 	
+	l('SettingsWindow 3');
 	reset.addEventListener("click", function() {
 		Ti.App.Properties.setObject('buttons.' + token, []);
 	    Ti.App.fireEvent('restart');
@@ -73,6 +78,7 @@ function SettingsWindow(button, parentButton) {
 	});
 	ios && (logout.color = "#5a5570");
 	
+	l('SettingsWindow 4');
 	logout.addEventListener("click", function() {
 		Ti.App.Properties.setString('token', null);
 		win.close({animated:false});
@@ -100,6 +106,8 @@ function SettingsWindow(button, parentButton) {
 		left: 40,
 		height: 50
 	});
+	
+	l('SettingsWindow 5');
 	if (ios) {
 		devModeSwitch.onTint = "#54577c";
 	}
@@ -144,6 +152,7 @@ function SettingsWindow(button, parentButton) {
 
 	win.add(wakaiModeView);*/
 
+	l('SettingsWindow 6');
     return win;
 }
 

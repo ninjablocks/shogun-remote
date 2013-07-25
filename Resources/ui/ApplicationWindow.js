@@ -110,6 +110,7 @@ function ApplicationWindow() {
 	});
 	
 	Ti.App.addEventListener('control.settings.show', function(e) {
+		l("Showing settings window");
 		new SettingsWindow().open({
 			modal: true,
 			modalTransitionStyle: ios? Ti.UI.iPhone.MODAL_TRANSITION_STYLE_FLIP_HORIZONTAL : undefined,

@@ -1,6 +1,8 @@
-$.subscribe('control.load', function(topic, buttons, devices) {
+$.subscribe('control.load', function(topic, buttons, devices, widgets) {
 
 	console.log('Control loaded with buttons', buttons, 'and devices', devices);
+	
+	ninja.control.widget.load(widgets);
 
 	$.publish('ninja.devices', devices);
 
