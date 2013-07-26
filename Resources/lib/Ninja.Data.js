@@ -1,8 +1,10 @@
-var server = 'https://api.ninja.is';
-
 var me = {};
 
 module.exports = me;
+
+me.getServer = function() {
+	return 'https://api.ninja.is'; // TODO: Add beta mode check here!
+}
 
 var updateInterval;
 me.startUpdating = function() {
@@ -10,12 +12,13 @@ me.startUpdating = function() {
 	
 	updateInterval = setInterval(me.updateAll, 60000);
 	me.localIps.update();
+	me.rules.update();
 };
 
 me.updateAll = function() {
 	me.devices.update();
 	me.localIps.update();
-	//me.rules.update();
+	me.rules.update();
 };
 
 me.stopUpdating = function() {
@@ -97,9 +100,9 @@ me.devices = {
 	}
 };
 
-var rules = Ti.App.Properties.getObject('rules') || {};
+var rules = Ti.App.Properties.getObject('rules');
 me.rules = {
-	get: function(rules) {
+	get: function(cb) {
 		if (rules) {
 			cb(rules);
 		} else {
@@ -147,8 +150,7 @@ me.localIps = {
 				Ti.API.info("Received blocks : " + this.responseText);
 	
 				var result = JSON.parse(this.responseText);
-				Ti.API.info(JSON.stringify(result.data));
-	
+				
 				for (var nodeId in result.data) {
 	
 					(function() {
@@ -183,7 +185,7 @@ me.localIps = {
 						});
 						//Synch version -> /rest/v0/block/{blockId}/network
 						//https://wakai.ninja.is/rest/v0/block/2712BB000612/network?user_access_token=gN4xvn4YCtPYnZeURZKO8sKaHcH7MfN0rGLyVe0
-						client.open('GET', server + '/rest/v0/block/' + node + '/network?user_access_token=' + token);
+						client.open('GET', me.getServer() + '/rest/v0/block/' + node + '/network?user_access_token=' + token);
 						client.setRequestHeader("Content-Type", 'application/json');
 						client.send();
 	
@@ -198,7 +200,7 @@ me.localIps = {
 		});
 	
 	
-		client.open('GET', server + '/rest/v0/blocks?user_access_token=' + token);
+		client.open('GET', me.getServer() + '/rest/v0/blocks?user_access_token=' + token);
 		client.setRequestHeader("Content-Type", 'application/json');
 		client.send();
 	}

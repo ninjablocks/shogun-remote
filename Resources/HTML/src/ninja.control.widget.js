@@ -148,7 +148,7 @@
 				}
 				_.each(d, function(device) {
 					var id = device.guid?device.guid:device;
-					$.publishAsync('control.device.state.update.' + id, id, state);
+					$.publishAsync('control.device.state.update.' + id, id, state, button);
 				});
 			},
 			subscribe: function(channel, callback, d) {

@@ -41,7 +41,7 @@ function ActionComposer(button, parentButton, navGroup, onSave) {
 	            accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_DISCLOSURE
 	        },
 	        template: Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT
-	    }/*, {
+	    }, {
 			window: RuleList,
 	        properties: {
 	            title: 'Rules',

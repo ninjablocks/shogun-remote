@@ -139,6 +139,8 @@ RemoteApplication.prototype.webkitReady = function() {
 	l('Webkit is ready');
 	
 	Ninja.Data.devices.get(function(devices) {
+		devices = JSON.parse(JSON.stringify(devices));
+		devices['rule'] = {guid:'rule'}; // Fake device to allow actuation
 		l('Devices are ready, sending to webkit');
 		Ti.App.fireEvent('publish', {data:[Ninja.Data.buttons.get(), devices, Ninja.Data.widgets.get()], topic: 'control.load'});
 	});
@@ -175,7 +177,14 @@ RemoteApplication.prototype.onConfirmDelete = function(btn) {
 }
 
 RemoteApplication.prototype.onActuate = function(node, states) {
-	statusbar.postMessageInProgress("Actuating device(s)");
+	
+	var self = this;
+	
+	if (node == 'undefined') {
+		statusbar.postMessageInProgress((states[0].state.state?'Enabling':'Disabling') + " rule '" + states[0].button.deviceName + "''");
+	} else {
+		statusbar.postMessageInProgress("Actuating device" + (states.length > 1?'s',''));
+	}
 	
 	var localIps = Ninja.Data.localIps.get();
 	var token = Ninja.Data.token.get();
@@ -198,7 +207,22 @@ RemoteApplication.prototype.onActuate = function(node, states) {
 
 	states.forEach(function(state) {
 		Titanium.API.info('Actuating device: ' + state.device.guid + ' with state: ' + state.state);
-
+		
+		if (state.device.guid === 'rule') {
+			l('Its a rule... ');
+			self.actuateRule(state.button.rule, state.state, function() {
+				Titanium.API.info('Rule success. ' + state.button.rule);
+				success++;
+				checkComplete();
+			}, function() {
+				Titanium.API.info('Rule failed.' + state.button.rule + ' - ' + JSON.stringify(e));
+				error++;
+				checkComplete();
+			})
+			
+			return;
+		}
+		
 		var ips = JSON.parse(JSON.stringify(localIps[node] || []));
 		ips.push('http://api.ninja.is')
 		function tryNextIp() {
@@ -235,6 +259,26 @@ RemoteApplication.prototype.onActuate = function(node, states) {
 		setTimeout(tryNextIp, 50);
 	});
 
+};
+
+RemoteApplication.prototype.actuateRule = function(ruleId, enabled, successCb, errorCb) {
+	
+	var token = Ninja.Data.token.get();
+	
+	var url = Ninja.Data.getServer() + '/rest/v0/rule/' + ruleId + '/suspend?user_access_token=' + token;;
+	
+	l('Actuating rule ' + url + ' with state ' + enabled);
+			
+	var client = Ti.Network.createHTTPClient({
+		onload : successCb,
+		// function called when an error occurs, including a timeout
+		onerror :errorCb
+	});
+
+	client.open(enabled?'POST':'DELETE', url);
+	client.setRequestHeader("Content-Type", 'application/json');
+	client.send();
+	
 };
 
 module.exports = RemoteApplication;

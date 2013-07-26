@@ -9,19 +9,21 @@ function RuleActionList(button, parentButton, navGroup, onSave) {
 
     var ruleData = [];
 
-    _.each(rules, function(rule) {
-
-		ruleData.push({
-			rule: rule,
-			properties: {
-			    title: rule.shortName,
-			    image: 'rule.png',
-			    accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_DISCLOSURE
-			},
-			template: Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT
-		});
-
-    });
+	Ninja.Data.rules.get(function(rules) {
+	    _.each(rules, function(rule) {
+	
+			ruleData.push({
+				rule: rule,
+				properties: {
+				    title: rule.shortName,
+				    image: 'rule.png',
+				    accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_DISCLOSURE
+				},
+				template: Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT
+			});
+	
+	    });
+	});
     
     Ti.API.info("Built rule ui " + JSON.stringify(ruleData));
 
@@ -30,13 +32,14 @@ function RuleActionList(button, parentButton, navGroup, onSave) {
 
 	listView.addEventListener('itemclick', function(e) {
 		var row = ruleData[e.itemIndex];
-		Ti.API.info("Clicked a rule : " + row);
+		Ti.API.info("Clicked a rule : " + JSON.stringify(row));
 
 		button.type = 'action';
 		button.widget = 'action';
-		button.title = row.rule.short_name;
+		button.deviceName = row.rule.shortName;
 		button.editor = 'rule';
-		button.rules = [row.rule.rid];
+		button.devices = ['rule'];
+		button.rule = row.rule.rid;
 
 		navGroup.open(new RuleActionEditor(button, parentButton, navGroup, onSave));
 	});

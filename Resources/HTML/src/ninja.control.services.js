@@ -18,7 +18,7 @@
 
 	var pendingState = {};
 
-	$.subscribe('control.device.state.update', function(topic, device, state) {
+	$.subscribe('control.device.state.update', function(topic, device, state, button) {
 
 		if (typeof state !== 'string') {
 			state = JSON.stringify(state);
@@ -30,7 +30,7 @@
 			pendingState[d.node] = [];
 		}
 
-		pendingState[d.node].push({device:d, state: state});
+		pendingState[d.node].push({device:d, state: state, button: button});
 
 		sendPendingState(); // debounced... cuts down on traffic to/from Ti, and allows us to potentially multi-actuate later
 	});

@@ -20,8 +20,6 @@ function SettingsWindow(button, parentButton) {
     if (!ios) {
     	win.backgroundColor = '#ffffff';
     }
-    
-	l('SettingsWindow 2');
 	
 	var close = Ninja.UI.createSaveButton({
 	    title: "Close"
@@ -44,7 +42,6 @@ function SettingsWindow(button, parentButton) {
 	
 	ios && (reset.color = "#5a5570");
 	
-	l('SettingsWindow 3');
 	reset.addEventListener("click", function() {
 		Ti.App.Properties.setObject('buttons.' + token, []);
 	    Ti.App.fireEvent('restart');
@@ -58,14 +55,14 @@ function SettingsWindow(button, parentButton) {
 	win.add(reset);
 	
 	var update = Titanium.UI.createButton({
-		title:'Update My Devices',
+		title:'Update Devices, Rules and IPs',
 		width: '80%',
 		top: 10
 	});
 	ios && (update.color = "#5a5570");
 	
 	update.addEventListener("click", function() {
-	    Ti.App.fireEvent('fetchDevices');
+	    Ninja.Data.updateAll();
 		win.close();
 	});
 	
@@ -78,7 +75,6 @@ function SettingsWindow(button, parentButton) {
 	});
 	ios && (logout.color = "#5a5570");
 	
-	l('SettingsWindow 4');
 	logout.addEventListener("click", function() {
 		Ti.App.Properties.setString('token', null);
 		win.close({animated:false});
@@ -107,7 +103,6 @@ function SettingsWindow(button, parentButton) {
 		height: 50
 	});
 	
-	l('SettingsWindow 5');
 	if (ios) {
 		devModeSwitch.onTint = "#54577c";
 	}
@@ -151,8 +146,6 @@ function SettingsWindow(button, parentButton) {
 	wakaiModeView.add(wakaiModeSwitch);
 
 	win.add(wakaiModeView);*/
-
-	l('SettingsWindow 6');
     return win;
 }
 

@@ -55,16 +55,13 @@ function RuleActionEditor(button, parentButton, navGroup, onSave, deviceName) {
     var actionData = [
     	{
 	        properties: {
-	            title: 'Turn On',
+	            title: 'Enable Rule',
 	            image: 'images/rule@2x.png',
 	            accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE
 	        },
 	        template: Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT,
 	        onClick: function(e) {
-	            button.title = 'Turn On ' + button.deviceName;
-	            nameField.value = button.title;
-	    		button.type = 'action';
-	    		button.widget = 'action';
+	            nameField.value = 'Enable ' + button.deviceName;
 	    		button.state = true;
 	    		selectItem(0);
 	    		//onSave(button);
@@ -72,16 +69,13 @@ function RuleActionEditor(button, parentButton, navGroup, onSave, deviceName) {
 	    },
 	    {
 	        properties: {
-	            title: 'Turn Off',
+	            title: 'Disable Rule',
 	            image: 'images/rule@2x.png',
 	            accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE
 	        },
 	        template: Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT,
 	        onClick: function(e) {
-	           	button.title = 'Turn Off ' + button.deviceName;
-	           	nameField.value = button.title;
-	    		button.type = 'action';
-	    		button.widget = 'action';
+	           	nameField.value = 'Disable ' + button.deviceName;
 	    		button.state = false
 	    		
 	    		selectItem(1);
