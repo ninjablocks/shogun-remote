@@ -15,11 +15,11 @@ var RemoteApplication = require('RemoteApplication');
 l('Starting Remote. Version : ' + Titanium.App.version);
 
 Ti.App.addEventListener('*', function(e) {
-	 Ti.API.info('Evt: ' + e.topic + ' - ' + JSON.stringify(e.data).replace(/\s+/g, ' '));
+	 l('Evt: ' + e.topic + ' - ' + JSON.stringify(e.data).replace(/\s+/g, ' '));
 });
 
 Ti.App.addEventListener('webview.log', function(e) {
-	 Ti.API.info('Web: ' + e.level + '-' + e.data);
+	 l('Web: ' + e.level + '-' + e.data);
 });
 
 new RemoteApplication();

@@ -16,7 +16,7 @@ function fire(level) {
 				} else if (i.outerHTML) {
 					return i.outerHTML;
 				}
-				return i+'';//JSON.stringify(i).replace(/\s+/g, ' ');
+				return JSON.stringify(i).replace(/\s+/g, ' ');
 			} catch(e) {
 				return '[BAD CYCLICAL] ' + i;
 			}

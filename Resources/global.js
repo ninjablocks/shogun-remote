@@ -1,8 +1,27 @@
 var osname = Ti.Platform.osname;
 var ios = (osname === 'iphone' || osname === 'ipad');
 
+
+var logHistory = [];
+
 function l(x) {
+	x = new Date().toLocaleString() + ' - ' + x;
+	logHistory.push(x);
+	if (logHistory.length > 200) {
+		logHistory.shift();
+	}
 	Ti.API.info(x);
+}
+
+function sendLogHistory() {
+	l('Sending debug log history email');
+	var emailDialog = Ti.UI.createEmailDialog()
+	emailDialog.subject = "Ninja Remote Debug Log";
+	emailDialog.toRecipients = ['elliot+remote@ninjablocks.com'];
+	emailDialog.messageBody = logHistory.join('\n');
+	/*var f = Ti.Filesystem.getFile('cricket.wav');
+	emailDialog.addAttachment(f);*/
+	emailDialog.open();
 }
 
 var _ = require('lib/underscore-1.4.4');

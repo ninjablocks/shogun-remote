@@ -253,7 +253,7 @@ module.exports.widgets = {
 			}
 		});
 	
-		l('Loaded source ' + JSON.stringify(source));
+		//l('Loaded source ' + JSON.stringify(source));
 	
 		return source;
 	}

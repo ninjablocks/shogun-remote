@@ -121,6 +121,21 @@ function SettingsWindow(button, parentButton) {
 
 	win.add(devModeView);
 	
+	
+	var sendLog = Titanium.UI.createButton({
+		title:'Send Debug Log to NinjaBlocks',
+		width: '80%',
+		top: 10
+	});
+	ios && (sendLog.color = "#5a5570");
+	
+	sendLog.addEventListener("click", function() {
+		sendLogHistory();
+	});
+	
+	win.add(sendLog);
+	
+	
 	/*var wakaiModeView = Ti.UI.createView({
 		layout: 'horizontal',
 		width: '80%',

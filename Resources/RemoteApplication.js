@@ -142,7 +142,7 @@ RemoteApplication.prototype.webkitReady = function() {
 		devices = JSON.parse(JSON.stringify(devices));
 		devices['rule'] = {guid:'rule'}; // Fake device to allow actuation
 		l('Devices are ready, sending to webkit');
-		Ti.App.fireEvent('publish', {data:[Ninja.Data.buttons.get(), devices, Ninja.Data.widgets.get()], topic: 'control.load'});
+		Ninja.App.fireWebkit('control.load', Ninja.Data.buttons.get(), devices, Ninja.Data.widgets.get());
 	});
 
 };
@@ -161,17 +161,17 @@ RemoteApplication.prototype.onConfirmDelete = function(btn) {
 		if (e.cancel === e.index || e.cancel === true) {
 			l('Cancelling delete');
 		} else {
-			
-			buttons = _.filter(buttons, function(b) {
+			l('Deleting button');
+			var buttons = _.filter(Ninja.Data.buttons.get(), function(b) {
 				return b.id != btn.id;
 			})
-			saveButtons();
+			Ninja.Data.buttons.save(buttons);
 			
-			Ti.App.fireEvent('publish', {data:[btn], topic: 'control.button.deleted'});
+			Ninja.App.fireWebkit('control.button.deleted', btn);
 	    }
 	
 	    //confirm.close();
-	}.bind(this));
+	});
 	
 	confirm.show();
 }
@@ -181,9 +181,9 @@ RemoteApplication.prototype.onActuate = function(node, states) {
 	var self = this;
 	
 	if (node == 'undefined') {
-		statusbar.postMessageInProgress((states[0].state.state?'Enabling':'Disabling') + " rule '" + states[0].button.deviceName + "''");
+		statusbar.postMessageInProgress((states[0].button.state?'Enabling':'Disabling') + " rule '" + states[0].button.deviceName + "''");
 	} else {
-		statusbar.postMessageInProgress("Actuating device" + (states.length > 1?'s',''));
+		statusbar.postMessageInProgress("Actuating device" + (states.length > 1?'s':''));
 	}
 	
 	var localIps = Ninja.Data.localIps.get();
@@ -210,7 +210,7 @@ RemoteApplication.prototype.onActuate = function(node, states) {
 		
 		if (state.device.guid === 'rule') {
 			l('Its a rule... ');
-			self.actuateRule(state.button.rule, state.state, function() {
+			self.actuateRule(state.button.rule, state.button.state, function() {
 				Titanium.API.info('Rule success. ' + state.button.rule);
 				success++;
 				checkComplete();
