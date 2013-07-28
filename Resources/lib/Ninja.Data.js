@@ -45,8 +45,7 @@ me.buttons = {
 		buttons = Ti.App.Properties.getObject('buttons.' + token);
 		if (!buttons || buttons.length == 0) {
 			l('Setting default buttons');
-			buttons = require('./defaultButtons');
-			me.buttons.save();
+			me.buttons.save(require('./defaultButtons'));
 		}
 		return buttons;
 	},
