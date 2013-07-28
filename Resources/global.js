@@ -16,9 +16,9 @@ function l(x) {
 function sendLogHistory() {
 	l('Sending debug log history email');
 	var emailDialog = Ti.UI.createEmailDialog()
-	emailDialog.subject = "Ninja Remote Debug Log";
-	emailDialog.toRecipients = ['elliot+remote@ninjablocks.com'];
-	emailDialog.messageBody = logHistory.join('\n');
+	emailDialog.subject = " [REMOTEDEBUG] Ninja Remote Debug Log";
+	emailDialog.toRecipients = ['help@ninjablocks.com'];
+	emailDialog.messageBody = 'Please describe the problem :\n\n\n\n\n----------------\n\n' + logHistory.join('\n');
 	/*var f = Ti.Filesystem.getFile('cricket.wav');
 	emailDialog.addAttachment(f);*/
 	emailDialog.open();
