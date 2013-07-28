@@ -31,7 +31,7 @@ function RawActionDeviceList(button, parentButton, navGroup, onSave) {
 
 	listView.addEventListener('itemclick', function(e) {
 		var row = deviceData[e.itemIndex];
-		Ti.API.info("Clicked a device : " + row);
+		l("Clicked a device : " + row);
 
 		button.type = 'action';
 		button.widget = 'action';

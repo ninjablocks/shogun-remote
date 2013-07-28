@@ -20,7 +20,7 @@ module.exports.createWindow = function(config) {
   	}
 	
 	config = _.extend(defaultConfig, config); 
- 	Ti.API.info("Config created : " + JSON.stringify(config));
+ 	l("Config created : " + JSON.stringify(config));
  	
  	var win = Ti.UI.createWindow(config);
  	
@@ -72,12 +72,12 @@ module.exports.createWindow = function(config) {
 		};
 		
 		win.setRightNavButton = function(button) {
-			Ti.API.info('Right nav button Added!' + button.title);
+			l('Right nav button Added!' + button.title);
 			rightNavButton = button;
 		};
 		
 		win.setLeftNavButton = function(button) {
-			Ti.API.info('Left nav button Added!' + button.title);
+			l('Left nav button Added!' + button.title);
 			leftNavButton = button;
 		};
 			 	
@@ -118,7 +118,7 @@ module.exports.createSaveButton = function(config) {
 module.exports.createListSection = function(config) {
 	if (!ios) {
 		_.each(config.items, function(item) {
-			Ti.API.log('Item' + JSON.stringify(item));
+			l('Item' + JSON.stringify(item));
 			if (!item.properties) {
 				item.properties = {};
 			}
@@ -170,7 +170,7 @@ function createAndroidNavigationGroup() {
 			activityEnterAnimation: Ti.Android.R.anim.slide_in_left
    	    }*/);
         
-        Ti.API.info("Opening window in navgroup : " + windowToOpen.title);
+        l("Opening window in navgroup : " + windowToOpen.title);
         
         windows.push(windowToOpen);
     };

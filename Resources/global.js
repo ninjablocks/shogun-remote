@@ -5,6 +5,8 @@ var ios = (osname === 'iphone' || osname === 'ipad');
 var logHistory = [];
 
 function l(x) {
+	if (!developerMode) return;
+	
 	x = new Date().toLocaleString() + ' - ' + x;
 	logHistory.push(x);
 	if (logHistory.length > 200) {
@@ -35,16 +37,21 @@ Ninja.Data = require('lib/Ninja.Data');
 
 var developerMode = Ti.App.Properties.getBool('developerMode');
 
-function setDeveloperMode(mode) {
+function setDeveloperMode(mode, hideMessage) {
 	developerMode = mode;
 
-	statusbar.postMessage('Ninja mode - ' + (mode?'Enabled':'Disabled'), 3);
+	if (!hideMessage) {
+		statusbar.postMessage('Ninja mode - ' + (mode?'Enabled':'Disabled'), 3);
+	}
 	Ti.App.Properties.setBool('developerMode', developerMode);
+	
+	Ti.App.fireEvent('developerMode', {developerMode: developerMode});
 
 	if (!mode) {
 		setWakaiMode(false, true);
 	}
 }
+setDeveloperMode(developerMode);
 
 var wakaiMode = Ti.App.Properties.getBool('wakaiMode');
 

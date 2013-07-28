@@ -95,7 +95,7 @@ function RuleActionEditor(button, parentButton, navGroup, onSave, deviceName) {
 	        	var item = e.section.getItemAt(e.itemIndex);
 	        	
 				IconPicker.onIconSelected = function(icon) {
-					Ti.API.info('Icon Selected - ' + icon);
+					l('Icon Selected - ' + icon);
 					button.image = icon;
 					item.properties.image = '/HTML/icons/'+button.image+'.png';
 					e.section.updateItemAt(e.itemIndex, item);
@@ -124,7 +124,7 @@ function RuleActionEditor(button, parentButton, navGroup, onSave, deviceName) {
 	var save = Ninja.UI.createSaveButton();
 	
 	save.addEventListener("click", function() {
-		Ti.API.info("Saving button from RuleAction : " + JSON.stringify(button));
+		l("Saving button from RuleAction : " + JSON.stringify(button));
 		button.title = nameField.value;
 		onSave(button);
 	});

@@ -82,7 +82,7 @@ function ActionDeviceList(button, parentButton, navGroup, onSave, deviceType) {
 	
 	listView.addEventListener('itemclick', function(e) {
 		var row = deviceData[e.itemIndex];
-		Ti.API.info("Clicked a device : " + row);
+		l("Clicked a device : " + row);
 		if (row.deviceType) {
 			button.device_type = row.deviceType.device_type;
 		} else {

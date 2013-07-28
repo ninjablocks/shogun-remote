@@ -23,7 +23,7 @@ function EditWindow(button, parentButton) {
 	
 	function closeEditWindow() {
 		
-		Ti.API.info('Closing edit window');
+		l('Closing edit window');
 		
 		if (ios) {
 			win.close();
@@ -33,7 +33,7 @@ function EditWindow(button, parentButton) {
 	}
 	
 	function saveButton(btn) {
-		Ti.API.info('Saving button - ' + JSON.stringify(btn));
+		l('Saving button - ' + JSON.stringify(btn));
 		Ti.App.fireEvent('control.button.' + (!!btn.id?'update':'add'), {button:btn});
 		closeEditWindow();
 	}
@@ -50,7 +50,7 @@ function EditWindow(button, parentButton) {
 		} else if (button.widget == 'light' || button.widget == 'action') {
 			var mainWindow = new ActionEditor(button, parentButton, navGroup, saveButton);
 		} else {
-			Ti.API.info('Making actioncomposer');
+			l('Making actioncomposer');
 			var mainWindow = new ActionComposer(button, parentButton, navGroup, saveButton);
 		}
 	}

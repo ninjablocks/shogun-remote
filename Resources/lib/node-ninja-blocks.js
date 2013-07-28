@@ -27,7 +27,7 @@ if (typeof ninjablocks == 'undefined') {
 
 		var client = Ti.Network.createHTTPClient({
 			onload : function(e) {
-				Ti.API.info("Received text: " + this.responseText);
+				l("Received text: " + this.responseText);
 				//alert('ajax success');
 				cb(null, {statusCode: this.status}, JSON.parse(this.responseText));
 			},

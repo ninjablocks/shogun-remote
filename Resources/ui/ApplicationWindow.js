@@ -68,7 +68,7 @@ function ApplicationWindow() {
 		var btn = e.data[0], 
 			parentBtn = e.data[1];
 
-		Ti.API.info('Creating new button ' + JSON.stringify(btn));
+		l('Creating new button ' + JSON.stringify(btn));
 		
 		if (parentBtn) {
 			// No point asking what type, they can't do nested menus anyway
@@ -103,7 +103,7 @@ function ApplicationWindow() {
 	Ti.App.addEventListener('control.button.edit', function(e) {
 		var btn = e.data[0];
 
-		Ti.API.info('Editing button ' + btn);
+		l('Editing button ' + btn);
 		
 		var edit = new EditWindow(btn);
 		if (ios) edit.open();

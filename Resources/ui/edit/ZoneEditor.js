@@ -52,7 +52,7 @@ function ZoneEditor(button, navGroup, onSave) {
 	        	
 	        	
 	        	IconPicker.onIconSelected = function(icon) {
-					Ti.API.info('Icon Selected - ' + icon);
+					l('Icon Selected - ' + icon);
 					button.image = icon;
 					item.properties.image = '/HTML/icons/'+button.image+'.png';
 					e.section.updateItemAt(e.itemIndex, item);
@@ -79,7 +79,7 @@ function ZoneEditor(button, navGroup, onSave) {
 	var save = Ninja.UI.createSaveButton();
 	
 	save.addEventListener("click", function() {
-		Ti.API.info("Saving button from Zone : " + JSON.stringify(button));
+		l("Saving button from Zone : " + JSON.stringify(button));
 		button.title = nameField.value;
 		onSave(button);
 	});

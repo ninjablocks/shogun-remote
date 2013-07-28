@@ -133,8 +133,12 @@ function SettingsWindow(button, parentButton) {
 		sendLogHistory();
 	});
 	
+	sendLog.visible = developerMode;
 	win.add(sendLog);
 	
+	Ti.App.addEventListener('developerMode', function(e) {
+		sendLog.visible = developerMode;
+	});
 	
 	/*var wakaiModeView = Ti.UI.createView({
 		layout: 'horizontal',

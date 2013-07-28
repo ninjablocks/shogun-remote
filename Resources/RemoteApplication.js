@@ -203,19 +203,19 @@ RemoteApplication.prototype.onActuate = function(node, states) {
 		}
 	}
 
-	Ti.API.info('Publishing node ' + node + ' states ' + JSON.stringify(states));
+	l('Publishing node ' + node + ' states ' + JSON.stringify(states));
 
 	states.forEach(function(state) {
-		Titanium.API.info('Actuating device: ' + state.device.guid + ' with state: ' + state.state);
+		l('Actuating device: ' + state.device.guid + ' with state: ' + state.state);
 		
 		if (state.device.guid === 'rule') {
 			l('Its a rule... ');
 			self.actuateRule(state.button.rule, state.button.state, function() {
-				Titanium.API.info('Rule success. ' + state.button.rule);
+				l('Rule success. ' + state.button.rule);
 				success++;
 				checkComplete();
 			}, function() {
-				Titanium.API.info('Rule failed.' + state.button.rule + ' - ' + JSON.stringify(e));
+				l('Rule failed.' + state.button.rule + ' - ' + JSON.stringify(e));
 				error++;
 				checkComplete();
 			})
@@ -226,7 +226,7 @@ RemoteApplication.prototype.onActuate = function(node, states) {
 		var ips = JSON.parse(JSON.stringify(localIps[node] || []));
 		ips.push('http://api.ninja.is')
 		function tryNextIp() {
-			Titanium.API.info('Trying block address : ' + ips[0]);
+			l('Trying block address : ' + ips[0]);
 
 			var ip = ips.shift();
 			var url = ip + '/rest/v0/device/' + state.device.guid + '?user_access_token=' + token;
@@ -234,13 +234,13 @@ RemoteApplication.prototype.onActuate = function(node, states) {
 			var client = Ti.Network.createHTTPClient({
 				timeout: ip.indexOf('ninja.is') > -1? 3000 : 500,
 				onload : function(e) {
-					Titanium.API.info('IP success. ' + ip);
+					l('IP success. ' + ip);
 					success++;
 					checkComplete();
 				},
 				// function called when an error occurs, including a timeout
 				onerror : function(e) {
-					Titanium.API.info('URL failed.' + url + ' - ' + JSON.stringify(e));
+					l('URL failed.' + url + ' - ' + JSON.stringify(e));
 					if (ips.length) {
 						setTimeout(tryNextIp, 50);
 					} else {

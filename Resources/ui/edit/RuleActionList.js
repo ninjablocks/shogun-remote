@@ -25,14 +25,14 @@ function RuleActionList(button, parentButton, navGroup, onSave) {
 	    });
 	});
     
-    Ti.API.info("Built rule ui " + JSON.stringify(ruleData));
+    l("Built rule ui " + JSON.stringify(ruleData));
 
     var ruleSection = Ninja.UI.createListSection({items: ruleData});
 	var listView = Ninja.UI.createListView({sections: [ruleSection]});
 
 	listView.addEventListener('itemclick', function(e) {
 		var row = ruleData[e.itemIndex];
-		Ti.API.info("Clicked a rule : " + JSON.stringify(row));
+		l("Clicked a rule : " + JSON.stringify(row));
 
 		button.type = 'action';
 		button.widget = 'action';

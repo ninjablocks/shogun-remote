@@ -22,7 +22,7 @@ var request = function(opts, cb) {
 
 	var client = Ti.Network.createHTTPClient({
 		onload : function(e) {
-			//Ti.API.info("Received text: " + this.responseText);
+			//l("Received text: " + this.responseText);
 			//alert('ajax success');
 			var result = this.responseText;
 			try {
@@ -92,7 +92,7 @@ function LoginWindow(onLogin) {
 				activityIndicator.hide();
 				alert(error);
 			} else {
-				Ti.API.info('Got Session ' + result.data['ninja.sid']);
+				l('Got Session ' + result.data['ninja.sid']);
 				request({
 					url: 'https://a.ninja.is/you',
 					method: 'GET'
@@ -105,12 +105,12 @@ function LoginWindow(onLogin) {
 					if (c.match(/Enable API Access/)) {
 						//https://a.ninja.is/rest/v0/virtual_block_access
 						//{"result":1,"error":null,"id":0,"data":{"token":"My621OWq2lLhnXvrtBr1tXG85rgM8mXK6ZPvXxJBI"}}
-						Ti.API.info('Virtual block access is not enabled. Enabling.');
+						l('Virtual block access is not enabled. Enabling.');
 						request({
 							url: 'https://a.ninja.is/rest/v0/api_access',
 							method: 'POST'
 						}, function(a,b,c) {
-							Ti.API.info('Got a token after enabling access : ' + c.data.token);
+							l('Got a token after enabling access : ' + c.data.token);
 							onLogin(c.data.token);
 							win.close();
 						});
@@ -120,7 +120,7 @@ function LoginWindow(onLogin) {
 							alert('Couldn\'t find your access token');
 							return;
 						}
-						Ti.API.info('Access Token! ' + JSON.stringify(result));
+						l('Access Token! ' + JSON.stringify(result));
 	
 						onLogin(result[1]);
 						win.close();

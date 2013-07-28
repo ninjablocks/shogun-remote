@@ -59,7 +59,7 @@ function SensorEditor(button, parentButton, navGroup, onSave, deviceName, device
 	        	var item = e.section.getItemAt(e.itemIndex);
 	        	
 				IconPicker.onIconSelected = function(icon) {
-					Ti.API.info('Icon Selected - ' + icon);
+					l('Icon Selected - ' + icon);
 					button.image = icon;
 					item.properties.image = '/HTML/icons/'+button.image+'.png';
 					e.section.updateItemAt(e.itemIndex, item);

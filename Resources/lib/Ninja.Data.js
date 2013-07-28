@@ -72,7 +72,7 @@ me.devices = {
 	update: function(cb) {
 		var client = Ti.Network.createHTTPClient({
 			onload : function(e) {
-				Ti.API.info("Received text: " + this.responseText);
+				l("Received text: " + this.responseText);
 				//alert('ajax success');
 				var result = JSON.parse(this.responseText);
 				var devices = result.data;
@@ -116,7 +116,7 @@ me.rules = {
 	update: function(cb) {
 		var client = Ti.Network.createHTTPClient({
 			onload : function(e) {
-				Ti.API.info("Received rules text: " + this.responseText);
+				l("Received rules text: " + this.responseText);
 				//alert('ajax success');
 				var result = JSON.parse(this.responseText);
 				me.rules.save(result.data);
@@ -146,7 +146,7 @@ me.localIps = {
 
 		var client = Ti.Network.createHTTPClient({
 			onload : function(e) {
-				Ti.API.info("Received blocks : " + this.responseText);
+				l("Received blocks : " + this.responseText);
 	
 				var result = JSON.parse(this.responseText);
 				
@@ -155,10 +155,10 @@ me.localIps = {
 					(function() {
 						var node = nodeId;
 	
-						Ti.API.info('Requesting network config for block ' + node);
+						l('Requesting network config for block ' + node);
 						var client = Ti.Network.createHTTPClient({
 							onload : function(e) {
-								Ti.API.info("Received block network config: " + this.responseText);
+								l("Received block network config: " + this.responseText);
 	
 								var result = JSON.parse(this.responseText);
 	
@@ -210,12 +210,12 @@ me.localIps = {
 function fetchUser() {
 	var client = Ti.Network.createHTTPClient({
 		onload : function(e) {
-			Ti.API.info("Received user text: " + this.responseText);
+			l("Received user text: " + this.responseText);
 			//alert('ajax success');
 			var result = JSON.parse(this.responseText);
 			user = result;
 
-			Ti.API.info('Fetched user' + JSON.stringify(user));
+			l('Fetched user' + JSON.stringify(user));
 
 			if (devices && !userPublished) {
 				publishUser();

@@ -103,7 +103,7 @@ function ActionEditor(button, parentButton, navGroup, onSave) {
 	        },
 	        template: Ti.UI.LIST_ITEM_TEMPLATE_DEFAULT,
 	        onClick: function() {
-	        	Ti.API.info('Clicked set colour!');
+	        	l('Clicked set colour!');
     		
 	    		var picker = new ColourPicker(button, function() {
 	    			nameField.value = button.title;
@@ -128,7 +128,7 @@ function ActionEditor(button, parentButton, navGroup, onSave) {
 	        	var item = e.section.getItemAt(e.itemIndex);
 	        	
 				IconPicker.onIconSelected = function(icon) {
-					Ti.API.info('Icon Selected - ' + icon);
+					l('Icon Selected - ' + icon);
 					button.image = icon;
 					item.properties.image = '/HTML/icons/'+button.image+'.png';
 					e.section.updateItemAt(e.itemIndex, item);
@@ -155,7 +155,7 @@ function ActionEditor(button, parentButton, navGroup, onSave) {
 	var save = Ninja.UI.createSaveButton();
 	
 	save.addEventListener("click", function() {
-		Ti.API.info("Saving button from DeviceAction : " + JSON.stringify(button));
+		l("Saving button from DeviceAction : " + JSON.stringify(button));
 		button.title = nameField.value;
 		onSave(button);
 	});

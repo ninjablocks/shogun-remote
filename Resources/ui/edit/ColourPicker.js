@@ -27,7 +27,7 @@ function ColourPicker(btn, onColour) {
 		var colour = Color(['HSL', hue.value/100, saturation.value/100,lightness.value/100]);
 		colourView.backgroundColor = colour.hex();
 		
-		Ti.API.info('col: ' + JSON.stringify(ntc.name(colour.hex())));
+		l('col: ' + JSON.stringify(ntc.name(colour.hex())));
 		
 		//nameField.value = btn.deviceName + ' ' + ntc.name(colour.hex())[1];
 		
@@ -80,7 +80,7 @@ function ColourPicker(btn, onColour) {
 		saturation.value = c.saturation() * 100;
 		lightness.value = c.lightness() * 100;
 		
-		Ti.API.info('Colour : ' + btn.state + ' ' + c.hue());
+		l('Colour : ' + btn.state + ' ' + c.hue());
 	}
 	
     return self;

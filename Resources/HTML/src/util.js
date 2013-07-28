@@ -2,11 +2,15 @@
 //console.log = console.info = function() {};
 
 window.id = Math.floor(Math.random() * 100);
-
+var developerMode = false;
+Ti.App.addEventListener('developerMode', function(e) {
+	developerMode = e.developerMode;
+});
 
 // Titanium's log only allows one argument :/
 function fire(level) {
 	return function() {
+		if (!developerMode) return;
 		var strings = _.map(Array.prototype.slice.call(arguments), function(i) {
 			try {
 				if (typeof i == 'string' || i === null || i === undefined || typeof i === 'number' || typeof i === 'boolean') {
@@ -31,8 +35,8 @@ if (Ti) {
     console.error = fire('error');
 }
 
-window.onerror = function(a,b,c,d) {
-	//alert(JSON.stringify(a) + JSON.stringify(b) + JSON.stringify(c));
+window.onerror = function(a,b,c) {
+	console.error("ERROR : ", a, b, c);
 };
 
 //Small Jquery/ender<->JST plugin
@@ -167,7 +171,7 @@ var tiEventListeners = [];
             }
         };
 
-        if (Ti) {
+        if (Ti && developerMode) {
             Ti.App.fireEvent('*', {data:[], topic: topic, windowId: window.id});
         }
         _.each(cache['*']||[], go);
