@@ -29,6 +29,16 @@ function RemoteApplication() {
 		this.onUpdateButton(e.button);
 	}.bind(this));
 	
+	Ti.App.addEventListener('reload', function(e) {
+		this.app.reload();
+	}.bind(this));
+
+	Ti.App.addEventListener('restart', function(e) {
+		this.login();
+	}.bind(this));
+	
+	this.app = new ApplicationWindow();
+
 	if (Ninja.Data.token.get()) {
 		this.start();
 	} else {
@@ -121,17 +131,15 @@ RemoteApplication.prototype.login = function() {
 	l('Showing login window');
 	new LoginWindow(function(t) {
 		Ninja.Data.token.save(t);
+		this.app.reload();
 		this.start();
 	}.bind(this)).open({animated:false});
 };
 
 RemoteApplication.prototype.start = function() {
 	l('Showing main application window');
-	var self = this;
-	
-	self.app = new ApplicationWindow();
-	self.app.open({animated:false});
-	
+
+	this.app.open({animated:false});
 };
 
 RemoteApplication.prototype.webkitReady = function() {
@@ -223,7 +231,16 @@ RemoteApplication.prototype.onActuate = function(node, states) {
 			return;
 		}
 		
-		var ips = JSON.parse(JSON.stringify(localIps[node] || []));
+		var ips = [];
+		
+		if (Titanium.Network.networkType == Titanium.Network.NETWORK_LAN || 
+			Titanium.Network.networkType == Titanium.Network.NETWORK_WIFI ||
+			Titanium.Network.networkType == Titanium.Network.NETWORK_UNKNOWN) {
+			// We can try local ips.
+			l('On a local network, attempting to use local ips');
+			ips = _.union(ips, localIps[node] || []);
+		} 
+		
 		ips.push('http://api.ninja.is')
 		function tryNextIp() {
 			l('Trying block address : ' + ips[0]);

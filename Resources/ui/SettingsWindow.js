@@ -43,13 +43,9 @@ function SettingsWindow(button, parentButton) {
 	ios && (reset.color = "#5a5570");
 	
 	reset.addEventListener("click", function() {
-		Ti.App.Properties.setObject('buttons.' + token, []);
-	    Ti.App.fireEvent('restart');
-	    reset.enabled = false;
-	    setTimeout(function() {   
-	    	reset.enabled = true; 	
-		    win.close();
-	    }, 3000);
+		Ninja.Data.buttons.reset();
+	    Ti.App.fireEvent('reload');
+		win.close();
 	});
 	
 	win.add(reset);
@@ -76,12 +72,11 @@ function SettingsWindow(button, parentButton) {
 	ios && (logout.color = "#5a5570");
 	
 	logout.addEventListener("click", function() {
-		Ti.App.Properties.setString('token', null);
+		Ninja.Data.token.save(null);
 		win.close({animated:false});
 		setTimeout(function() {
 			Ti.App.fireEvent('restart');
 		}, 1500);
-		
 	});
 	
 	win.add(logout);

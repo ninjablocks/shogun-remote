@@ -40,7 +40,7 @@ var developerMode = Ti.App.Properties.getBool('developerMode');
 function setDeveloperMode(mode, hideMessage) {
 	developerMode = mode;
 
-	if (!hideMessage) {
+	if (!hideMessage || mode) {
 		statusbar.postMessage('Ninja mode - ' + (mode?'Enabled':'Disabled'), 3);
 	}
 	Ti.App.Properties.setBool('developerMode', developerMode);
@@ -51,7 +51,7 @@ function setDeveloperMode(mode, hideMessage) {
 		setWakaiMode(false, true);
 	}
 }
-setDeveloperMode(developerMode);
+setDeveloperMode(developerMode, true);
 
 var wakaiMode = Ti.App.Properties.getBool('wakaiMode');
 

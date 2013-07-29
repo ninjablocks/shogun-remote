@@ -1,6 +1,10 @@
 module.exports.fireWebkit = function(topic) {
 	var params = Array.prototype.slice.call(arguments, 1);
-	Ti.App.fireEvent('publish', {data:params, topic: topic});
+	try {
+		Ti.App.fireEvent('publish', {data:params, topic: topic});
+	} catch(e) {
+		Ti.API.error('Failed to fire webkit event ' + topic + ' - ' + e);
+	}
 }
 
 module.exports.onHttpError = function(task) {

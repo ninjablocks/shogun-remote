@@ -1,3 +1,5 @@
+console.log('Webkit starting up');
+
 $.subscribe('control.load', function(topic, buttons, devices, widgets) {
 
 	console.log('Control loaded with buttons', buttons, 'and devices', devices);

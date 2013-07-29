@@ -35,21 +35,28 @@ me.token = {
 		Ti.App.Properties.setString('token', token);
 		if (token) {
 			me.startUpdating();
+		} else {
+			me.stopUpdating();
 		}
 	}
 };
 
-var buttons;
 me.buttons = {
 	get: function() {
-		buttons = Ti.App.Properties.getObject('buttons.' + token);
+		var buttons = Ti.App.Properties.getObject('buttons.' + token);
+		l('Got ' + (buttons?buttons.length:0) + ' buttons');
 		if (!buttons || buttons.length == 0) {
 			l('Setting default buttons');
-			me.buttons.save(require('./defaultButtons'));
+			me.buttons.reset();
 		}
+		l('Returning buttons');
 		return buttons;
 	},
+	reset: function() {
+		me.buttons.save(require('lib/defaultButtons'));
+	},
 	save: function(b) {
+		l('Saving buttons ' + JSON.stringify(b));
 		buttons = b;
 		Ti.App.Properties.setObject('buttons.' + token, buttons);
 	}

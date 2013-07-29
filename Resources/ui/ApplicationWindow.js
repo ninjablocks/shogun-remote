@@ -42,13 +42,8 @@ function ApplicationWindow() {
     createWebView();
     self.reload = function() {
     	l('Resetting web view');
-    	webView.html = ' ';
-    	l('  Cleared existing one');
-    	self.remove(webView);
-    	l('  Remove existing');
-		createWebView();
-		l(  'Added new')
-    }
+    	webView.evalJS('window.location.reload();');
+    };
 
     if (animationsOn) {
         setTimeout(function() {
@@ -118,7 +113,7 @@ function ApplicationWindow() {
 		});
 	});
 	
-	if (ios) {
+	/*if (ios) {
 		// Preload the edit window by making a hidden one.
 		setTimeout(function() {
 			var e = new EditWindow({
@@ -128,7 +123,7 @@ function ApplicationWindow() {
 			//e.open({animated:false});
 			//e.close();
 		}, 3000);
-	}
+	}*/
 	
     return self;
 }

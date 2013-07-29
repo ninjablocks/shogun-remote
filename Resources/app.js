@@ -22,4 +22,4 @@ Ti.App.addEventListener('webview.log', function(e) {
 	 l('Web: ' + e.level + '-' + e.data);
 });
 
-new RemoteApplication();
+var app = new RemoteApplication();
