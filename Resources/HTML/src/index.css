@@ -279,8 +279,8 @@ body.touching .main-pane, body.second-level .main-pane {
 
 body.touching .remote-row > td, body.touching .remote-row > td {
     border: 1px solid rgb(33,32,33);
-    -webkit-box-shadow: inset 0px 1px 0px 0px rgba(62,63,79,.97);
-    box-shadow: inset 0px 1px 0px 0px rgba(62,63,79,.97);
+    -webkit-box-shadow: inset 0px 1px 0px 0px rgba(62,63,79,.3);
+    box-shadow: inset 0px 1px 0px 0px rgba(62,63,79,.3);
     background-image: -webkit-linear-gradient(bottom, rgba(53,53,66,.13) 0%, rgba(46,47,57,.13) 100%); /* gradient overlay */
 }
 
