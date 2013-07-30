@@ -284,7 +284,7 @@ RemoteApplication.prototype.actuateRule = function(ruleId, enabled, successCb, e
 	
 	var url = Ninja.Data.getServer() + '/rest/v0/rule/' + ruleId + '/suspend?user_access_token=' + token;;
 	
-	l('Actuating rule ' + url + ' with state ' + enabled);
+	l('Actuating rule ' + url + ' with action ' + enabled?'DELETE':'POST');
 			
 	var client = Ti.Network.createHTTPClient({
 		onload : successCb,
@@ -292,7 +292,7 @@ RemoteApplication.prototype.actuateRule = function(ruleId, enabled, successCb, e
 		onerror :errorCb
 	});
 
-	client.open(enabled?'POST':'DELETE', url);
+	client.open(enabled?'DELETE':'POST', url);
 	client.setRequestHeader("Content-Type", 'application/json');
 	client.send();
 	
