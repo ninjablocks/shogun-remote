@@ -450,7 +450,7 @@
 		});
 
 		$(document).on('touchstart', 'body:not(.edit) .remote-button.active', function(e) {
-			if (activebutton) {
+			if (activeButton) {
 				deactivateCurrentButton();
 			} else {
 				resetUI();
