@@ -2,6 +2,17 @@ var me = {};
 
 module.exports = me;
 
+var backgrounded = false;
+Ti.App.addEventListener('pause',function(e){
+   Ti.API.info("Ninja in background");
+   backgrounded = true;
+});
+
+Ti.App.addEventListener('resume',function(e){
+    Ti.API.info("Ninja in foreground");
+    backgrounded = false;
+});
+
 me.getServer = function() {
 	return 'https://api.ninja.is'; // TODO: Add beta mode check here!
 }
@@ -10,15 +21,17 @@ var updateInterval;
 me.startUpdating = function() {
 	me.stopUpdating();
 	
-	updateInterval = setInterval(me.updateAll, 60000);
+	updateInterval = setInterval(me.updateAll, 180000);
 	me.localIps.update();
 	me.rules.update();
 };
 
 me.updateAll = function() {
-	me.devices.update();
-	me.localIps.update();
-	me.rules.update();
+	if (!backgrounded) {
+		me.devices.update();
+		me.localIps.update();
+		me.rules.update();
+	}
 };
 
 me.stopUpdating = function() {
@@ -38,6 +51,7 @@ me.token = {
 		} else {
 			me.stopUpdating();
 		}
+		me.buttons.get();
 	}
 };
 
@@ -62,10 +76,14 @@ me.buttons = {
 	}
 }
 
-var devices = Ti.App.Properties.getObject('devices') || {};
+if (token) {
+	me.buttons.get();
+}
+
 me.devices = {
 	get: function(cb) {
-		if (devices) {
+		var devices = Ti.App.Properties.getObject('devices' + token);
+		if (devices && devices.length) {
 			cb(devices);
 		} else {
 			me.devices.update(cb);
@@ -73,8 +91,7 @@ me.devices = {
 	},
 	save: function(d) {
 		l('Saving ' + _.keys(d).length + ' devices');
-		devices = d;
-		Ti.App.Properties.setObject('devices', devices);
+		Ti.App.Properties.setObject('devices', d);
 	},
 	update: function(cb) {
 		var client = Ti.Network.createHTTPClient({
@@ -248,6 +265,11 @@ module.exports.widgets = {
 	
 		Titanium.Filesystem.getFile(path).getDirectoryListing().forEach(function(file) {
 			var type = file.substr(file.indexOf('.') + 1);
+			
+			if (type == 'jsx') {
+				type = 'js';
+			}
+			
 			var id = file.substr(0, file.indexOf('.'));
 			file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, "HTML/widgets/" + file);
 			var blob = file.read();
