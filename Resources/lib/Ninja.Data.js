@@ -26,8 +26,8 @@ me.startUpdating = function() {
 	me.rules.update();
 };
 
-me.updateAll = function() {
-	if (!backgrounded) {
+me.updateAll = function(force) {
+	if (!backgrounded || force) {
 		me.devices.update();
 		me.localIps.update();
 		me.rules.update();
@@ -82,16 +82,20 @@ if (token) {
 
 me.devices = {
 	get: function(cb) {
-		var devices = Ti.App.Properties.getObject('devices' + token);
-		if (devices && devices.length) {
+		var devices = Ti.App.Properties.getObject('devices'+token);
+		if (devices && _.keys(devices).length) {
 			cb(devices);
 		} else {
 			me.devices.update(cb);
 		}
 	},
 	save: function(d) {
+		var old = Ti.App.Properties.getObject('devices'+token);
+		if (!old && _.keys(d).length != _.keys(old).length) {
+			Ninja.App.fireWebkit('ninja.devices', d);
+		}
 		l('Saving ' + _.keys(d).length + ' devices');
-		Ti.App.Properties.setObject('devices', d);
+		Ti.App.Properties.setObject('devices'+token, d);
 	},
 	update: function(cb) {
 		var client = Ti.Network.createHTTPClient({
@@ -123,10 +127,10 @@ me.devices = {
 	}
 };
 
-var rules = Ti.App.Properties.getObject('rules');
 me.rules = {
 	get: function(cb) {
-		if (rules) {
+		var rules = Ti.App.Properties.getObject('rules'+token);
+		if (rules && rules.length) {
 			cb(rules);
 		} else {
 			me.rules.update(cb);
@@ -134,8 +138,7 @@ me.rules = {
 	},
 	save: function(r) {
 		l('Saving ' + r.length + ' rules');
-		rules = r;
-		Ti.App.Properties.setObject('rules', rules);
+		Ti.App.Properties.setObject('rules'+token, r);
 	},
 	update: function(cb) {
 		var client = Ti.Network.createHTTPClient({
@@ -145,7 +148,7 @@ me.rules = {
 				var result = JSON.parse(this.responseText);
 				me.rules.save(result.data);
 	
-				cb && cb(rules);
+				cb && cb(result.data);
 			},
 			// function called when an error occurs, including a timeout
 			onerror : Ninja.App.onHttpError('fetching rules')
