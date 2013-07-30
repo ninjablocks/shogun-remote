@@ -135,14 +135,14 @@ function LoginWindow(onLogin) {
 
     var style;
 	if (ios){
-	  style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
+	  style = Ti.UI.iPhone.ActivityIndicatorStyle.PLAIN;
 	} else {
 	  style = Ti.UI.ActivityIndicatorStyle.DARK;
 	}
 	var activityIndicator = Ti.UI.createActivityIndicator({
 	  top:412,
 	  font: {fontFamily:'Helvetica Neue'},
-	  message: 'Logging in...',
+	  message: '',
 	  style:style,
 	  color:'white',
 	  width:'100%'
