@@ -1,3 +1,4 @@
+var ButtonsEditor = require('ui/ButtonsEditor');
 
 function SettingsWindow(button, parentButton) {
 	
@@ -58,7 +59,8 @@ function SettingsWindow(button, parentButton) {
 	ios && (update.color = "#5a5570");
 	
 	update.addEventListener("click", function() {
-	    Ninja.Data.updateAll();
+	    Ninja.Data.updateAll(true);
+	    statusbar.postMessage('Updating Devices, Rules and Local IPs', 3);
 		win.close();
 	});
 	
@@ -131,8 +133,51 @@ function SettingsWindow(button, parentButton) {
 	sendLog.visible = developerMode;
 	win.add(sendLog);
 	
+	
+	
+	var reload = Titanium.UI.createButton({
+		title:'Reload Remote Window',
+		width: '80%',
+		top: 10
+	});
+	ios && (reload.color = "#5a5570");
+	
+	reload.addEventListener("click", function() {
+		Ti.App.fireEvent('reload');
+		win.close({animated:false});
+	});
+	
+	reload.visible = developerMode;
+	win.add(reload);
+	
+	var editButtons = Titanium.UI.createButton({
+		title:'Edit Raw Configuration',
+		width: '80%',
+		top: 10
+	});
+	ios && (editButtons.color = "#5a5570");
+	
+	editButtons.addEventListener("click", function() {
+		win.close({animated:false});
+		statusbar.postMessage('Entering the matrix....', 3);
+		var editor = new ButtonsEditor(Ninja.Data.buttons.get(), function(buttons) {
+			Ninja.Data.buttons.save(buttons);
+			Ti.App.fireEvent('reload');
+			editor.close();
+		});
+		setTimeout(function() {
+			editor.open({modal:true});
+		}, 2000);
+		
+	});
+	
+	editButtons.visible = developerMode;
+	win.add(editButtons);
+	
 	Ti.App.addEventListener('developerMode', function(e) {
 		sendLog.visible = developerMode;
+		reload.visible = developerMode;
+		editButtons.visible = developerMode;
 	});
 	
 	/*var wakaiModeView = Ti.UI.createView({
