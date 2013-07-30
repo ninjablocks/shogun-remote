@@ -64,7 +64,6 @@
 	};
 
 	ns.build = function(id, button, parentButton, container) {
-		'use strict';
 
 		log('Building widget', id, 'for button', button);
 
@@ -193,7 +192,21 @@
 			}
 		};
 
-		evalScoped(widget.js, instance);
+		if (!widget.fn) {
+			console.log('Evaluation widget js ' + widget.js);
+			try {
+				widget.fn = eval(widget.js);
+				console.log('Evaluated : ' + widget.fn);
+			} catch(e) {
+				console.error('Failed to eval widget ' + button.widget + ' ' + e.message);
+			}
+		}
+		
+		try {
+			widget.fn(instance);
+		} catch(e) {
+			console.error('Failed to initialise widget ' + button.widget + ' ' + e.message);
+		}
 
 		widgetScope[id].firstRun = false;
 

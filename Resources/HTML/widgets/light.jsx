@@ -1,10 +1,11 @@
-var container = this.container,
-	devices = this.devices,
-	log = this.log,
-	subscribe = this.subscribe,
-	publishState = this.publishState,
-	widget = this.widget,
-	button = this.button;
+(function(opts) {
+var container = opts.container,
+	devices = opts.devices,
+	log = opts.log,
+	subscribe = opts.subscribe,
+	publishState = opts.publishState,
+	widget = opts.widget,
+	button = opts.button;
 
 var onComplete;
 
@@ -207,3 +208,5 @@ if (widget.firstRun) {
 		widget.lean = e.gamma;
 	};
 }
+
+});

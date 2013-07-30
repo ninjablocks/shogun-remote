@@ -1,10 +1,14 @@
 // Has log, container, subscribe and publishState
 // Events available 'state', 'activate',
-
-var subscribe = this.subscribe,
-	publishState = this.publishState,
-	conatiner = this.container;
-
+(function(opts) {
+var container = opts.container,
+	devices = opts.devices,
+	log = opts.log,
+	subscribe = opts.subscribe,
+	publishState = opts.publishState,
+	widget = opts.widget,
+	button = opts.button;
+	
 var state = true;
 
 var onState = this.button.onState || '1';
@@ -22,4 +26,6 @@ subscribe('activate', function(complete) {
 	state = !state;
 	publishState(state?onState:offState);
 	setTimeout(complete, 200);
+});
+
 });
