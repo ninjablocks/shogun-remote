@@ -44,6 +44,7 @@ me.token = {
 		return token;
 	},
 	save: function(t) {
+		l("Saving token : " + t);
 		token = t;
 		Ti.App.Properties.setString('token', token);
 		if (token) {
@@ -91,7 +92,7 @@ me.devices = {
 	},
 	save: function(d) {
 		var old = Ti.App.Properties.getObject('devices'+token);
-		if (!old && _.keys(d).length != _.keys(old).length) {
+		if (!old || _.keys(d).length != _.keys(old).length) {
 			Ninja.App.fireWebkit('ninja.devices', d);
 		}
 		l('Saving ' + _.keys(d).length + ' devices');
