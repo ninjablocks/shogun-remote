@@ -107,6 +107,13 @@ function SettingsWindow(button, parentButton) {
 		setDeveloperMode(devModeSwitch.value);
 		//wakaiModeView.visible = developerMode;
 		if (developerMode) {
+			
+			var dialog = Ti.UI.createAlertDialog({
+			    message: 'Ninja mode should not be left on all the time. Ninjas love excessive debug logging.',
+			    ok: 'I Understand',
+			    title: 'Ninja Mode Activated'
+			}).show();
+			
 			gong.play();
 			playHiyaa = true;
 		} else {
