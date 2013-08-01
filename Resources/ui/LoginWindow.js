@@ -57,6 +57,48 @@ var request = function(opts, cb) {
 
 
 function LoginWindow(onLogin) {
+	
+	function onToken(token) {
+		l('Prefetching devices on login');
+		showActivity('Fetching Your Devices');
+		
+		Ninja.Data.token.save(token);
+		
+		
+		Ninja.Data.devices.get(function(d) {
+			l('Got prefetched devices... continuing with login ' + JSON.stringify(d));
+			// Wait till we have devices... saves a wait on the next screen
+			
+			onLogin(token);
+			hideActivity();
+		});
+	}
+
+	var currentIndicator;
+
+	function showActivity(message) {
+		hideActivity();
+		
+		currentIndicator = Ti.UI.createActivityIndicator({
+		  top:412,
+		  font: {fontFamily:'Helvetica Neue'},
+		  message: message,
+		  style: ios? Ti.UI.iPhone.ActivityIndicatorStyle.PLAIN : Ti.UI.ActivityIndicatorStyle.PLAIN,
+		  color:'white',
+		  width:'100%'
+		}); 
+		
+		view.add(currentIndicator);
+		
+		currentIndicator.show();
+	}
+	
+	function hideActivity() {
+		if (currentIndicator) {
+			currentIndicator.hide();
+		}
+	}
+	
 
     var win = Ti.UI.createWindow({
 		navBarHidden : true,
@@ -71,7 +113,7 @@ function LoginWindow(onLogin) {
 	    usernameField.editable = false;
 		passwordField.editable = false;
 
-		activityIndicator.show();
+		showActivity('Logging in');
 
 		request({
 			url: 'https://a.ninja.is/signin',
@@ -89,8 +131,8 @@ function LoginWindow(onLogin) {
 				usernameField.editable = true;
 				passwordField.editable = true;
 				login.enabled = true;
-				activityIndicator.hide();
 				alert(error);
+				hideActivity();
 			} else {
 				l('Got Session ' + result.data['ninja.sid']);
 				request({
@@ -100,29 +142,32 @@ function LoginWindow(onLogin) {
 					
 					if (a) {
 						alert('An error occurred fetching your access token: ' + a);
+						hideActivity();
 						return;
 					}
 					if (c.match(/Enable API Access/)) {
 						//https://a.ninja.is/rest/v0/virtual_block_access
 						//{"result":1,"error":null,"id":0,"data":{"token":"My621OWq2lLhnXvrtBr1tXG85rgM8mXK6ZPvXxJBI"}}
 						l('Virtual block access is not enabled. Enabling.');
+						showActivity('Enabling API Access');
 						request({
 							url: 'https://a.ninja.is/rest/v0/api_access',
 							method: 'POST'
 						}, function(a,b,c) {
 							l('Got a token after enabling access : ' + c.data.token);
-							onLogin(c.data.token);
+							onToken(c.data.token);
 							win.close();
 						});
 					} else {
 						var result = c.match(/api-token-holder">([^<]*)</);
 						if (!result || result.length < 2) {
 							alert('Couldn\'t find your access token');
+							hideActivity();
 							return;
 						}
 						l('Access Token! ' + JSON.stringify(result));
 	
-						onLogin(result[1]);
+						onToken(result[1]);
 						win.close();
 					}
 
@@ -133,20 +178,7 @@ function LoginWindow(onLogin) {
 	}
 
 
-    var style;
-	if (ios){
-	  style = Ti.UI.iPhone.ActivityIndicatorStyle.PLAIN;
-	} else {
-	  style = Ti.UI.ActivityIndicatorStyle.DARK;
-	}
-	var activityIndicator = Ti.UI.createActivityIndicator({
-	  top:412,
-	  font: {fontFamily:'Helvetica Neue'},
-	  message: '',
-	  style:style,
-	  color:'white',
-	  width:'100%'
-	});
+
 	
 	
     
@@ -171,6 +203,7 @@ function LoginWindow(onLogin) {
 		height:40,
 		hintText:'Email Address',
 		keyboardType:Titanium.UI.KEYBOARD_EMAIL,
+		autocapitalization: Titanium.UI.TEXT_AUTOCAPITALIZATION_NONE,
 		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED
 	});
 	
@@ -190,6 +223,7 @@ function LoginWindow(onLogin) {
 		hintText:'Password',
 		passwordMask: true,
 		keyboardType:Titanium.UI.KEYBOARD_DEFAULT,
+		autocapitalization: Titanium.UI.TEXT_AUTOCAPITALIZATION_NONE,
 		borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED
 	});
 	if (!ios) {
@@ -220,8 +254,6 @@ function LoginWindow(onLogin) {
 	view.add(login);
 	
 	win.add(view);
-	
-	view.add(activityIndicator);
 	
     return win;
 }
