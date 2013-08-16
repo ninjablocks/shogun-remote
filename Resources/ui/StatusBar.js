@@ -32,7 +32,7 @@ if (ios) {
         
         setTimeout(function() {
         	Titanium.Android.NotificationManager.cancel(x);
-        }, durationSeconds * 1000)
+        }, durationSeconds * 1000);
 
 	};
 

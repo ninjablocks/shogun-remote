@@ -149,7 +149,7 @@ RemoteApplication.prototype.webkitReady = function() {
 	Ninja.Data.devices.get(function(devices) {
 		devices = JSON.parse(JSON.stringify(devices));
 		devices['rule'] = {guid:'rule'}; // Fake device to allow actuation
-		l('Devices are ready, sending to webkit');
+		l('Devices are ready, sending ' + _.keys(devices).length + ' devices to webkit');
 		Ninja.App.fireWebkit('control.load', Ninja.Data.buttons.get(), devices, Ninja.Data.widgets.get());
 	});
 
@@ -172,7 +172,7 @@ RemoteApplication.prototype.onConfirmDelete = function(btn) {
 			l('Deleting button');
 			var buttons = _.filter(Ninja.Data.buttons.get(), function(b) {
 				return b.id != btn.id;
-			})
+			});
 			Ninja.Data.buttons.save(buttons);
 			
 			Ninja.App.fireWebkit('control.button.deleted', btn);
@@ -182,7 +182,7 @@ RemoteApplication.prototype.onConfirmDelete = function(btn) {
 	});
 	
 	confirm.show();
-}
+};
 
 RemoteApplication.prototype.onActuate = function(node, states) {
 	
@@ -197,7 +197,7 @@ RemoteApplication.prototype.onActuate = function(node, states) {
 	var localIps = Ninja.Data.localIps.get();
 	var token = Ninja.Data.token.get();
 	
-	console.log("Got ips : " + localIps);
+	console.log("Got ips : " + JSON.stringify(localIps));
 
 	var success = 0, error = 0;
 	
@@ -226,7 +226,7 @@ RemoteApplication.prototype.onActuate = function(node, states) {
 				l('Rule failed.' + state.button.rule + ' - ' + JSON.stringify(e));
 				error++;
 				checkComplete();
-			})
+			});
 			
 			return;
 		}
@@ -241,7 +241,8 @@ RemoteApplication.prototype.onActuate = function(node, states) {
 			ips = _.union(ips, localIps[node] || []);
 		} 
 		
-		ips.push('http://api.ninja.is')
+		ips.push('http://api.ninja.is');
+		
 		function tryNextIp() {
 			l('Trying block address : ' + ips[0]);
 
