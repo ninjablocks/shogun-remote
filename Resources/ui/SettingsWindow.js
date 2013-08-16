@@ -167,13 +167,21 @@ function SettingsWindow(button, parentButton) {
 	editButtons.addEventListener("click", function() {
 		win.close({animated:false});
 		statusbar.postMessage('Entering the matrix....', 3);
+		
 		var editor = new ButtonsEditor(Ninja.Data.buttons.get(), function(buttons) {
 			Ninja.Data.buttons.save(buttons);
 			Ti.App.fireEvent('reload');
 			editor.close();
 		});
 		setTimeout(function() {
-			editor.open({modal:true});
+			
+			if (ios) {
+				editor.open();
+			} else {
+				var navGroup = Ninja.UI.createNavigationGroup();
+				navGroup.open(editor);
+			}
+			
 		}, 2000);
 		
 	});

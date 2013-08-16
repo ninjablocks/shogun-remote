@@ -42,7 +42,13 @@ function ApplicationWindow() {
     createWebView();
     self.reload = function() {
     	l('Resetting web view');
-    	webView.evalJS('window.location.reload();');
+    	if (ios) {
+    		webView.evalJS('window.location.reload();');
+    	} else {
+    		webView.html = '<html></html';
+    		self.remove(webView);
+    		createWebView();
+    	}
     };
 
     if (animationsOn) {
