@@ -180,27 +180,29 @@ me.localIps = {
 	
 				var result = JSON.parse(this.responseText);
 				
-				var tasks = [];
+				var tasks = _.keys(result.data);
+				
+				l('Queued nodes to fetch network config ' + JSON.stringify(tasks));
 				
 				function nextTask() {
 					if (tasks.length) {
-						var t = tasks.pop();
-						setTimeout(t, 500);
+						setTimeout(function() {
+							getBlockConfig(tasks.pop(), nextTask);
+						}, 500);
 					}
 				}
 				
-				for (var nodeId in result.data) {
-	
-					tasks.push(function() {
-						var node = nodeId;
-	
-						l('Requesting network config for block ' + node);
-						var client = Ti.Network.createHTTPClient({
-							onload : function(e) {
-								l("Received block network config: " + this.responseText);
-	
-								var result = JSON.parse(this.responseText);
-	
+				function getBlockConfig(node, done) {
+
+					l('Requesting network config for block ' + node);
+					var client = Ti.Network.createHTTPClient({
+						onload : function(e) {
+							l("Received block network config: " + this.responseText);
+							
+							var result = JSON.parse(this.responseText);
+							
+							if (result && !result.error) {
+								
 								var ips = [];
 								_.each(result, function(addresses) {
 									_.each(addresses, function(address){
@@ -217,22 +219,23 @@ me.localIps = {
 								localIps[node] = ips;
 								
 								
-								me.localIps.save();
-								
-								nextTask();
-							},
-							onerror : function(e) {
-								console.log('Error getting local ip for node', node, e);
-								nextTask();
+								me.localIps.save(); 
+							
 							}
-						});
-						//Synch version -> /rest/v0/block/{blockId}/network
-						//https://wakai.ninja.is/rest/v0/block/2712BB000612/network?user_access_token=gN4xvn4YCtPYnZeURZKO8sKaHcH7MfN0rGLyVe0
-						client.open('GET', me.getServer() + '/rest/v0/block/' + node + '/network?user_access_token=' + token);
-						client.setRequestHeader("Content-Type", 'application/json');
-						client.send();
-	
+
+							done();
+						},
+						onerror : function(e) {
+							console.log('Error getting local ip for node', node, e);
+							done();
+						}
 					});
+					//Synch version -> /rest/v0/block/{blockId}/network
+					//https://wakai.ninja.is/rest/v0/block/2712BB000612/network?user_access_token=gN4xvn4YCtPYnZeURZKO8sKaHcH7MfN0rGLyVe0
+					client.open('GET', me.getServer() + '/rest/v0/block/' + node + '/network?user_access_token=' + token);
+					client.setRequestHeader("Content-Type", 'application/json');
+					client.send();
+	
 				}
 				nextTask();
 	
