@@ -15,7 +15,7 @@ Ti.App.addEventListener('resume',function(e){
 
 me.getServer = function() {
 	return 'https://api.ninja.is'; // TODO: Add beta mode check here!
-}
+};
 
 var updateInterval;
 me.startUpdating = function() {
@@ -75,7 +75,7 @@ me.buttons = {
 		buttons = b;
 		Ti.App.Properties.setObject('buttons.' + token, buttons);
 	}
-}
+};
 
 if (token) {
 	me.buttons.get();
@@ -171,6 +171,8 @@ me.localIps = {
 		Ti.App.Properties.setObject('localIps', localIps);
 	},
 	update: function() {
+		
+		
 
 		var client = Ti.Network.createHTTPClient({
 			onload : function(e) {
@@ -178,9 +180,18 @@ me.localIps = {
 	
 				var result = JSON.parse(this.responseText);
 				
+				var tasks = [];
+				
+				function nextTask() {
+					if (tasks.length) {
+						var t = tasks.pop();
+						setTimeout(t, 500);
+					}
+				}
+				
 				for (var nodeId in result.data) {
 	
-					(function() {
+					tasks.push(function() {
 						var node = nodeId;
 	
 						l('Requesting network config for block ' + node);
@@ -199,15 +210,20 @@ me.localIps = {
 										}
 									});
 								});
+								
+								if (ips[0] !== localIps[node][0]) {
+									statusbar.postMessage('Found new local block IP ' + ips[0], 1);
+								}
 								localIps[node] = ips;
 								
-								if (ips.length > 0) {
-									statusbar.postMessage('Found local block IP ' + ips[0], 1);
-								}
+								
 								me.localIps.save();
+								
+								nextTask();
 							},
 							onerror : function(e) {
-								console.log('Error getting local ip for node', node, e)
+								console.log('Error getting local ip for node', node, e);
+								nextTask();
 							}
 						});
 						//Synch version -> /rest/v0/block/{blockId}/network
@@ -216,9 +232,9 @@ me.localIps = {
 						client.setRequestHeader("Content-Type", 'application/json');
 						client.send();
 	
-					})();
-	
-				};
+					});
+				}
+				nextTask();
 	
 			},
 			onerror : function(e) {
@@ -231,7 +247,7 @@ me.localIps = {
 		client.setRequestHeader("Content-Type", 'application/json');
 		client.send();
 	}
-}
+};
 
 
 /*
@@ -265,9 +281,10 @@ module.exports.widgets = {
 	get: function() {
 		var source = {};
 	
-		var path = 'HTML/widgets';
+		var path = ios?'HTML/widgets':'../HTML/widgets';
 	
 		Titanium.Filesystem.getFile(path).getDirectoryListing().forEach(function(file) {
+			l('File : ' + file);
 			var type = file.substr(file.indexOf('.') + 1);
 			
 			if (type == 'jsx') {
@@ -275,7 +292,7 @@ module.exports.widgets = {
 			}
 			
 			var id = file.substr(0, file.indexOf('.'));
-			file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, "HTML/widgets/" + file);
+			file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, path + "/" + file);
 			var blob = file.read();
 			if (blob && blob.text) {
 				var readText = blob.text;
@@ -289,7 +306,7 @@ module.exports.widgets = {
 	
 		return source;
 	}
-}
+};
 
 if (token) {
 	me.startUpdating();
