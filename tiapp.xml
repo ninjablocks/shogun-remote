@@ -8,10 +8,10 @@
         <target device="android">true</target>
         <target device="blackberry">false</target>
     </deployment-targets>
-    <sdk-version>3.1.0.GA</sdk-version>
+    <sdk-version>3.1.2.GA</sdk-version>
     <id>com.ninjablocks.remote</id>
     <name>Remote</name>
-    <version>15</version>
+    <version>16</version>
     <publisher>NinjaBlocks</publisher>
     <url>http://ninjablocks.com</url>
     <description>The NinjaBlocks Remote Control</description>
@@ -29,7 +29,7 @@
     <property name="ti.android.compilejs" type="bool">false</property>
     <property name="ti.android.fastdev" type="bool">false</property>
     <property name="ti.android.bug2373.finishfalseroot" type="bool">true</property>
-    <!-- 
+    <!--
 	<property name="ti.android.bug2373.disableDetection" type="bool">true</property>
 	<property name="ti.android.bug2373.restartDelay" type="int">500</property>
 	<property name="ti.android.bug2373.finishDelay" type="int">0</property>
