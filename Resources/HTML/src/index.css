@@ -11,6 +11,11 @@ html, body {
     padding: 0;
 }
 
+body {
+	background: url(../images/bg-small-purple.png);
+	background-size: cover;
+}
+
 /* make this more app-like, less web-like */
 * { /* ES: Are these wildcard selectors a performance hit? */
   -webkit-touch-callout: none;

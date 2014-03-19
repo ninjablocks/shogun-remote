@@ -34,7 +34,8 @@ function ApplicationWindow() {
 	        backgroundColor:'transparent',
 	        opacity: animationsOn?0:1,
 	        enableZoomControls : false, // Android only
-	        url : '/HTML/index.html'
+	        url : '/HTML/index.html',
+	        borderRadius: 2
 	    });
 	    
 	    self.add(webView);

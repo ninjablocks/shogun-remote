@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><ti:app xmlns:ti="http://ti.appcelerator.org">
+<?xml version="1.0" encoding="UTF-8"?>
+<ti:app xmlns:ti="http://ti.appcelerator.org">
     <deployment-targets>
         <target device="tizen">false</target>
         <target device="mobileweb">false</target>
@@ -7,7 +8,7 @@
         <target device="android">true</target>
         <target device="blackberry">false</target>
     </deployment-targets>
-    <sdk-version>3.1.2.GA</sdk-version>
+    <sdk-version>3.2.2.GA</sdk-version>
     <id>com.ninjablocks.remote</id>
     <name>Remote</name>
     <version>16</version>
@@ -53,21 +54,39 @@
     </iphone>
     <android xmlns:android="http://schemas.android.com/apk/res/android">
         <tool-api-level>14</tool-api-level>
-        <manifest android:versionCode="16" android:versionName="1.6.0" package="com.ninjablocks.remote" xmlns:android="http://schemas.android.com/apk/res/android">
-            <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="17"/>
+        <manifest android:versionCode="16" android:versionName="1.6.0"
+            package="com.ninjablocks.remote" xmlns:android="http://schemas.android.com/apk/res/android">
+            <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="19"/>
             <!-- TI_MANIFEST -->
-            <application android:debuggable="false" android:icon="@drawable/appicon" android:label="Remote" android:name="RemoteApplication" android:screenOrientation="portrait" android:theme="@style/Theme.Ninja">
+            <application android:debuggable="false"
+                android:icon="@drawable/appicon" android:label="Remote"
+                android:name="RemoteApplication"
+                android:screenOrientation="portrait" android:theme="@style/Theme.Ninja">
                 <!-- TI_APPLICATION -->
-                <activity android:configChanges="keyboardHidden|orientation|screenSize" android:label="Remote" android:name=".RemoteActivity" android:screenOrientation="portrait" android:theme="@style/Theme.Titanium">
+                <activity
+                    android:configChanges="keyboardHidden|orientation|screenSize"
+                    android:label="Remote"
+                    android:name=".RemoteActivity"
+                    android:screenOrientation="portrait" android:theme="@style/Theme.Titanium">
                     <intent-filter>
                         <action android:name="android.intent.action.MAIN"/>
                         <category android:name="android.intent.category.LAUNCHER"/>
                     </intent-filter>
                 </activity>
-                <activity android:configChanges="keyboardHidden|orientation|screenSize" android:name="org.appcelerator.titanium.TiActivity" android:screenOrientation="portrait"/>
-                <activity android:configChanges="keyboardHidden|orientation|screenSize" android:name="org.appcelerator.titanium.TiTranslucentActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent"/>
-                <activity android:configChanges="keyboardHidden|orientation|screenSize" android:name="org.appcelerator.titanium.TiModalActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent"/>
-                <activity android:configChanges="keyboardHidden|orientation|screenSize" android:name="ti.modules.titanium.ui.TiTabActivity" android:screenOrientation="portrait"/>
+                <activity
+                    android:configChanges="keyboardHidden|orientation|screenSize"
+                    android:name="org.appcelerator.titanium.TiActivity" android:screenOrientation="portrait"/>
+                <activity
+                    android:configChanges="keyboardHidden|orientation|screenSize"
+                    android:name="org.appcelerator.titanium.TiTranslucentActivity"
+                    android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent"/>
+                <activity
+                    android:configChanges="keyboardHidden|orientation|screenSize"
+                    android:name="org.appcelerator.titanium.TiModalActivity"
+                    android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent"/>
+                <activity
+                    android:configChanges="keyboardHidden|orientation|screenSize"
+                    android:name="ti.modules.titanium.ui.TiTabActivity" android:screenOrientation="portrait"/>
                 <activity android:name="ti.modules.titanium.ui.android.TiPreferencesActivity"/>
             </application>
             <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
@@ -76,4 +95,5 @@
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
         </manifest>
     </android>
-<property name="ti.deploytype">test</property></ti:app>
+    <property name="ti.deploytype">test</property>
+</ti:app>
