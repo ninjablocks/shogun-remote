@@ -7,9 +7,9 @@
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
      You may obtain a copy of the License at
-  
+
           http://www.apache.org/licenses/LICENSE-2.0
-  
+
      Unless required by applicable law or agreed to in writing, software
      distributed under the License is distributed on an "AS IS" BASIS,
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,7 @@
 
 <resources>
 
-    <style name="Theme.Ninja" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+    <style name="Theme.Ninja" parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_ninja</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Ninja</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Ninja</item>
@@ -29,52 +29,52 @@
         <item name="android:actionModeBackground">@drawable/cab_background_top_ninja</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_ninja</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Ninja</item>
-        
+
                 <!-- Light.DarkActionBar specific -->
         <item name="android:actionBarWidgetTheme">@style/Theme.Ninja.Widget</item>
 
     </style>
 
-    <style name="ActionBar.Solid.Ninja" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+    <style name="ActionBar.Solid.Ninja" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@drawable/ab_background_textured_ninja</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_ninja</item>
         <item name="android:backgroundSplit">@drawable/ab_background_textured_ninja</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Ninja</item>
     </style>
 
-    <style name="ActionBar.Transparent.Ninja" parent="@android:style/Widget.Holo.ActionBar">
+    <style name="ActionBar.Transparent.Ninja" parent="@style/Widget.AppCompat.ActionBar">
         <item name="android:background">@drawable/ab_transparent_ninja</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Ninja</item>
     </style>
 
-    <style name="PopupMenu.Ninja" parent="@android:style/Widget.Holo.ListPopupWindow">
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_ninja</item>	
+    <style name="PopupMenu.Ninja" parent="@style/Widget.AppCompat.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_ninja</item>
     </style>
 
-    <style name="DropDownListView.Ninja" parent="@android:style/Widget.Holo.ListView.DropDown">
+    <style name="DropDownListView.Ninja" parent="@style/Widget.AppCompat.ListView.DropDown">
         <item name="android:listSelector">@drawable/selectable_background_ninja</item>
     </style>
 
-    <style name="ActionBarTabStyle.Ninja" parent="@android:style/Widget.Holo.ActionBar.TabView">
+    <style name="ActionBarTabStyle.Ninja" parent="@style/Widget.AppCompat.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_ninja</item>
     </style>
 
-    <style name="DropDownNav.Ninja" parent="@android:style/Widget.Holo.Spinner">
+    <style name="DropDownNav.Ninja" parent="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
         <item name="android:background">@drawable/spinner_background_ab_ninja</item>
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_ninja</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_ninja</item>
     </style>
-    
-    <style name="ProgressBar.Ninja" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
+
+    <style name="ProgressBar.Ninja" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_ninja</item>
     </style>
-    
-    <style name="ActionButton.CloseMode.Ninja" parent="@android:style/Widget.Holo.ActionButton.CloseMode">
+
+    <style name="ActionButton.CloseMode.Ninja" parent="@style/Widget.AppCompat.ActionButton.CloseMode">
         <item name="android:background">@drawable/btn_cab_done_ninja</item>
     </style>
 
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
-    <style name="Theme.Ninja.Widget" parent="@android:style/Theme.Holo">
+    <style name="Theme.Ninja.Widget" parent="@style/Theme.AppCompat.Light">
         <item name="android:popupMenuStyle">@style/PopupMenu.Ninja</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Ninja</item>
     </style>

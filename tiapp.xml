@@ -8,7 +8,7 @@
         <target device="android">true</target>
         <target device="blackberry">false</target>
     </deployment-targets>
-    <sdk-version>3.1.0.GA</sdk-version>
+    <sdk-version>3.5.1.GA</sdk-version>
     <id>com.ninjablocks.remote</id>
     <name>Remote</name>
     <version>13</version>
@@ -29,7 +29,7 @@
     <property name="ti.android.compilejs" type="bool">false</property>
     <property name="ti.android.fastdev" type="bool">false</property>
     <property name="ti.android.bug2373.finishfalseroot" type="bool">true</property>
-    <!-- 
+    <!--
 	<property name="ti.android.bug2373.disableDetection" type="bool">true</property>
 	<property name="ti.android.bug2373.restartDelay" type="int">500</property>
 	<property name="ti.android.bug2373.finishDelay" type="int">0</property>
@@ -79,11 +79,11 @@
                 <activity
                     android:configChanges="keyboardHidden|orientation|screenSize"
                     android:name="org.appcelerator.titanium.TiTranslucentActivity"
-                    android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent"/>
+                    android:screenOrientation="portrait" android:theme="@style/Theme.AppCompat.Translucent"/>
                 <activity
                     android:configChanges="keyboardHidden|orientation|screenSize"
                     android:name="org.appcelerator.titanium.TiModalActivity"
-                    android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent"/>
+                    android:screenOrientation="portrait" android:theme="@style/Theme.AppCompat.Translucent"/>
                 <activity
                     android:configChanges="keyboardHidden|orientation|screenSize"
                     android:name="ti.modules.titanium.ui.TiTabActivity" android:screenOrientation="portrait"/>
