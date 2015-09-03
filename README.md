@@ -5,6 +5,9 @@ Ninja Blocks Remote for iOS and Android.
 
 Note: This is getting quite old, it may not build using the latest Appcelerator Titanium... or for latest Android/iOS.
 
+### Building
+Install the Appceletator Titanium CLI, then run "titanium build".
+
 <img src="https://raw.githubusercontent.com/ninjablocks/shogun-remote/master/design/documentation/device.android.1.png" width="300"/>
 
 ## License
